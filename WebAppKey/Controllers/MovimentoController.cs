@@ -1,35 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
 
-namespace WebAppKey.Controllers;
 
+namespace WebAppKey.Controllers;
+   // [EnableCors("_myAllowSpecificOrigins")]
     [Route("api/[controller]")]
     [ApiController]
     public class MovimentoController: ControllerBase
     {
         private readonly IMovimentoService _movimentoServices;
 
+
         public MovimentoController(IMovimentoService movimentoService)
         {
             _movimentoServices = movimentoService;
         }
-
+        
         [HttpGet]
-        public async Task<ActionResult<List<Movimento>>> Get()
+        public async  Task<ActionResult<IEnumerable<Movimento>>> Get()
         {
-            var movimentos = await _movimentoServices.GetAll();
-            return Ok(movimentos);
+            return Ok(await _movimentoServices.GetAll());
+            
         }
+        
 
-        [HttpGet]
+        
+
+        [HttpGet]        
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> GetById(int id)
         {
             var movimento =  await  _movimentoServices.GetById(id);
-            return Ok(movimento);
+            return movimento;
         }
 
         [HttpPost]
@@ -53,6 +57,14 @@ namespace WebAppKey.Controllers;
             var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
             return movimento;
         }
+        
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult<Movimento>> Patch(MovimentoDTO movimentoDto, int id)
+        {
+            var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
+            return movimento;
+        }        
 
         [HttpDelete]
         [Route("{id}")]
