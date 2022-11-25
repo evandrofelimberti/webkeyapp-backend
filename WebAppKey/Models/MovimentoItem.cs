@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
+using WebAppKey.Data;
 using WebAppKey.DTO;
 using WebAppKey.Models.Enum;
+using WebAppKey.Services;
 
 namespace WebAppKey.Models;
 
@@ -15,7 +17,7 @@ public class MovimentoItem
     [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]    
     [Display(Name = "Data Inclusão")]
     [Required(ErrorMessage = "{0} obrigatório")]
-    public DateTime DataInclusao { get; set; } = DateTime.Now;
+    public DateTime DataInclusao { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
     
     [Required(ErrorMessage = "{0} obrigatório")]    
     [Display(Name = "Descrição")]
@@ -60,7 +62,8 @@ public class MovimentoItem
 
     public void FromMovimentoItemDTO(MovimentoItemDTO itemDto)
     {
-        this.DataInclusao = itemDto.DataInclusao;
+        this.Id = itemDto.Id;
+        //this.DataInclusao = itemDto.DataInclusao;
         this.Descricao = itemDto.Descricao;
         this.ProdutoId = itemDto.ProdutoId;
         this.MovimentoId = itemDto.MovimentoId;

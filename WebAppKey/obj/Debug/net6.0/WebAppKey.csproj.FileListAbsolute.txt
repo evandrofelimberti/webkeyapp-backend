@@ -36,3 +36,10 @@ C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\obj\Debug\net6.0
 C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\obj\Debug\net6.0\WebAppKey.pdb
 C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\obj\Debug\net6.0\WebAppKey.genruntimeconfig.cache
 C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\obj\Debug\net6.0\ref\WebAppKey.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\evand\Documents\Desenvolvimento\C#\WebAppKey\WebAppKey\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

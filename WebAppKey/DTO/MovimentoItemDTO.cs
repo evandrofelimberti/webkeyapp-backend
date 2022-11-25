@@ -2,6 +2,7 @@ namespace WebAppKey.DTO;
 
 public class MovimentoItemDTO
 {
+    public int Id { get; set; }
     public DateTime DataInclusao { get; set; } = DateTime.Now;
     public string Descricao { get; set; } = string.Empty;
     public int ProdutoId { get; set; }

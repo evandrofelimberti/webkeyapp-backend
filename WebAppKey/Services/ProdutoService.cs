@@ -15,6 +15,15 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         
     }
     
+    new public async Task<IEnumerable<Produto>> GetAll()
+    {
+        var produtos = await _context.Produto
+            .Include(u => u.Unidade)
+            .Include(t => t.TipoProduto)
+            .ToListAsync();
+        return produtos;
+    }
+    
     public async Task<Produto> UpdateProduto(int Id, ProdutoDTO produtoDto)
     {
         try

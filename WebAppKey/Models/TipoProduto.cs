@@ -25,8 +25,8 @@ public class TipoProduto
     [Required(ErrorMessage = "{0} obrigatório")]
     public eTipoProduto Tipo { get; set; } = eTipoProduto.tpNenhum;    
     
-    [JsonIgnore]
-    public List<Produto> produtos { get; set; }
+   // [JsonIgnore]
+   // public List<Produto> produtos { get; set; }
 
     public TipoProduto()
     {

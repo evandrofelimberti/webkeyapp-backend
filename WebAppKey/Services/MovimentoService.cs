@@ -14,7 +14,11 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
     }
     new public async Task<Movimento> GetById(int Id)
     {
-        var movimento =  await _context.Movimento.Where(m => m.Id == Id).Include(m => m.Itens).FirstOrDefaultAsync();
+        var movimento = await _context.Movimento
+            .Where(m => m.Id == Id)
+            .Include(m => m.Itens)
+            .Include(tm => tm.TipoMovimento)
+            .FirstOrDefaultAsync();
         if (movimento == null)
         {
             throw new Exception($"Identificador {Id} não encontrado!");
@@ -25,7 +29,10 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
 
     new public async Task<IEnumerable<Movimento>> GetAll()
     {
-        var movimentos = await _context.Movimento.Include(m => m.Itens).ToListAsync();
+        var movimentos = await _context.Movimento
+            .Include(m => m.Itens)
+            .Include(tm => tm.TipoMovimento)
+            .ToListAsync();
         return movimentos;
     }
 
@@ -46,7 +53,7 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         {
             var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
             var movimento = await GetById(Id);
-            movimento.Itens.Clear(); //Limpar itens para salvar somente o que veio no json
+           // movimento.Itens.Clear(); //Limpar itens para salvar somente o que veio no json
             movimento.FromMovimentoDTO(movimentoDto);
             movimento.TipoMovimento = tipomovimento;
         

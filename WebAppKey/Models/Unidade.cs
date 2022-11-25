@@ -20,8 +20,8 @@ namespace WebAppKey.Models
         [MaxLength(3, ErrorMessage = "{0} tem mais que 3 caracteres")]
         public string Sigla { get; set; } = string.Empty;
 
-        [JsonIgnore]
-        public List<Produto> produtos { get; set; }
+       // [JsonIgnore]
+       // public List<Produto> produtos { get; set; }
 
     }
 }
