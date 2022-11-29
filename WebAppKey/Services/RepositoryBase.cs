@@ -71,7 +71,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
         catch (Exception e)
         {
-            throw new Exception($"Erro ao deletar Id{Id}! \n" + e.Message);
+            throw new Exception($"Erro ao deletar Id {Id}! \n" + e.Message);
         }
     }
 }

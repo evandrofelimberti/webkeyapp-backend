@@ -5,13 +5,12 @@ using WebAppKey.Services.Interfaces;
 
 
 namespace WebAppKey.Controllers;
-   // [EnableCors("_myAllowSpecificOrigins")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class MovimentoController: ControllerBase
     {
         private readonly IMovimentoService _movimentoServices;
-
 
         public MovimentoController(IMovimentoService movimentoService)
         {
@@ -24,9 +23,6 @@ namespace WebAppKey.Controllers;
             return Ok(await _movimentoServices.GetAll());
             
         }
-        
-
-        
 
         [HttpGet]        
         [Route("{id}")]

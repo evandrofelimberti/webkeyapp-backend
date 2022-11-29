@@ -16,11 +16,6 @@ namespace WebAppKey.Controllers
         private readonly IProdutoService _produtoServices;
         private readonly DataContext _context;
 
-      /*  public ProdutoController(DataContext context)
-        {
-            _context = context;
-        }*/
-
         public ProdutoController(IProdutoService produtoService, DataContext context)
         {
             _context = context;

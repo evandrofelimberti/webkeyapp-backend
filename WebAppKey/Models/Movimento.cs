@@ -52,7 +52,10 @@ public class Movimento
         this.DataInclusao = movimentoDto.DataInclusao;
         this.TipoMovimentoId = movimentoDto.TipoMovimentoId;
         this.Observacao = movimentoDto.Observacao;
-
+        
+       // var itemtoremove = this.Itens.Where(item => item.Id == 1).First();
+       // this.Itens.Remove(itemtoremove);
+        
        /* foreach (var item in this.Itens)
         {
             if (! movimentoDto.Itens.Contains(new MovimentoItemDTO() { Id = item.Id }))
@@ -64,7 +67,7 @@ public class Movimento
 
         foreach (var itemDto in movimentoDto.Itens)
         {   
-            if ((itemDto.Id == null) || (itemDto.Id == 0))
+            if (itemDto.Id == 0)
             {
                 var newItem = new MovimentoItem();
                 newItem.FromMovimentoItemDTO(itemDto);                
@@ -72,17 +75,13 @@ public class Movimento
             }
             else
             {
-                foreach (var item in this.Itens)
+                var itemUpdate = this.Itens.Where(item => item.Id == itemDto.Id).First();
+                if (itemUpdate != null)
                 {
-                    if (item.Id == itemDto.Id)
-                    {
-                        item.FromMovimentoItemDTO(itemDto);
-                        break;
-                    }
+                    itemUpdate.FromMovimentoItemDTO(itemDto);
                 }
             }
         }
-
     }
     
     public void AddItem(MovimentoItem item)
