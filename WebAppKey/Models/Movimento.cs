@@ -32,13 +32,16 @@ public class Movimento
     
     [Display(Name = "Tipo Movimento")]
     [Required(ErrorMessage = "Campo {0} é obrigatório")]
-    public int TipoMovimentoId { get; set; } 
-        
+    public int TipoMovimentoId { get; set; }
+    
     [JsonIgnore]
     public TipoMovimento TipoMovimento { get; set; }
-    
-  //  [JsonIgnore]
+    //  [JsonIgnore]
     public ICollection<MovimentoItem> Itens { get; set; } = new List<MovimentoItem>();
+
+    [Display(Name = "Total")]
+    [DisplayFormat(DataFormatString = "{0:F2}")]
+    public double Total { get; set; } = 0;
 
     public Movimento()
     {
@@ -52,19 +55,7 @@ public class Movimento
         this.DataInclusao = movimentoDto.DataInclusao;
         this.TipoMovimentoId = movimentoDto.TipoMovimentoId;
         this.Observacao = movimentoDto.Observacao;
-        
-       // var itemtoremove = this.Itens.Where(item => item.Id == 1).First();
-       // this.Itens.Remove(itemtoremove);
-        
-       /* foreach (var item in this.Itens)
-        {
-            if (! movimentoDto.Itens.Contains(new MovimentoItemDTO() { Id = item.Id }))
-            {
-                //this.Itens.RemoveAll(p => p.Id == id);
-                this.Itens.Remove(p => p.Id == item.Id);                
-            }
-        }*/
-
+       
         foreach (var itemDto in movimentoDto.Itens)
         {   
             if (itemDto.Id == 0)
@@ -82,6 +73,7 @@ public class Movimento
                 }
             }
         }
+        this.Total = this.TotalItens();
     }
     
     public void AddItem(MovimentoItem item)

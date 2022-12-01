@@ -43,7 +43,7 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         movimento.FromMovimentoDTO(movimentoDto);
         movimento.TipoMovimento = tipomovimento;
         
-        await base.Add(movimento);
+        await Add(movimento);
         return movimento;
     }
 
@@ -53,11 +53,10 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         {
             var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
             var movimento = await GetById(Id);
-           // movimento.Itens.Clear(); //Limpar itens para salvar somente o que veio no json
             movimento.FromMovimentoDTO(movimentoDto);
             movimento.TipoMovimento = tipomovimento;
         
-            await base.Update(movimento);
+            await Update(movimento);
             return movimento;
         }
         catch(Exception ex)

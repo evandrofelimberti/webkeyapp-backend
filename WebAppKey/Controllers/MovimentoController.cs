@@ -28,7 +28,7 @@ namespace WebAppKey.Controllers;
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> GetById(int id)
         {
-            var movimento =  await  _movimentoServices.GetById(id);
+            var movimento =  await _movimentoServices.GetById(id);
             return movimento;
         }
 

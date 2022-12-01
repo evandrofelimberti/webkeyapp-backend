@@ -10,6 +10,9 @@ public class MovimentoDTO
     public eSituacaoMovimento Situacao { get; set; } = eSituacaoMovimento.smInclusao;
     public string Observacao { get; set; } = string.Empty;
     public int TipoMovimentoId { get; set; }
+
+    public double Total { get; set; } = 0;   
+    
     public ICollection<MovimentoItemDTO> Itens { get; set; } = new List<MovimentoItemDTO>();
 
 }

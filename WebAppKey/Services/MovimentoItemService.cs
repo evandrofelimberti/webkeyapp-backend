@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
+using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
 
@@ -19,5 +20,14 @@ public class MovimentoItemService: RepositoryBase<MovimentoItem>, IMovimentoItem
             .Include(m => m.Movimento)
             .Where(m => m.MovimentoId == id).ToListAsync();
         return itens;
+    }
+
+    public async Task<Movimento> DeleteMovimentoItem(MovimentoDTO movimentoDto, int id)
+    {
+        var movimentoId = await _context.MovimentoItem.Where(m => m.Id == id).Select(m => m.MovimentoId).FirstOrDefaultAsync();
+        await base.DeleteById(id);
+        var movimentoService = new MovimentoService(_context);
+        var movimento = await movimentoService.UpdateMovimento(movimentoId, movimentoDto);
+        return movimento;
     }
 }

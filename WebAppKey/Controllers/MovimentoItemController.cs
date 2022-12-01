@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
 
@@ -17,12 +18,11 @@ namespace WebAppKey.Controllers;
         
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<Movimento>> Delete(MovimentoDTO movimentoDto, int id)
         {
             try
             {
-                await _movimentoItemServices.DeleteById(id);
-                return Ok("true");
+                return await _movimentoItemServices.DeleteMovimentoItem(movimentoDto, id);
             }
             catch (Exception e)
             {
