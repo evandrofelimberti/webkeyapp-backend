@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.DTO;
 using WebAppKey.Models;
@@ -64,9 +65,9 @@ namespace WebAppKey.Controllers;
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult<string>> Delete(int id)
+        public async Task<HttpStatusCode> Delete(int id)
         {
             await _movimentoServices.DeleteById(id);
-            return Ok("Movimento deletado!");
+            return HttpStatusCode.OK;
         }        
     }
