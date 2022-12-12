@@ -17,5 +17,8 @@ namespace WebAppKey.Data
         public DbSet<Movimento> Movimento { get; set; }
         public DbSet<MovimentoItem> MovimentoItem { get; set; }
         public DbSet<TipoMovimento> TipoMovimento { get; set; }
+        public DbSet<Lavoura> Lavoura { get; set; }
+        public DbSet<MovimentoLavoura> MovimentoLavoura { get; set; }
+
     }
 }

@@ -1,0 +1,32 @@
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+
+namespace WebAppKey.Models
+{
+    public class MovimentoLavoura
+    {
+        [Key]
+        [Required]        
+        public int Id { get; set; }
+        [Required]
+        public int MovimentoId { get; set; }
+        [JsonIgnore]
+        public Movimento Movimento { get; set; }
+
+        [Required]
+        public int LavouraId { get; set; }
+        [JsonIgnore]
+        public Lavoura Lavoura { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Data Realizado")]
+        [Required(ErrorMessage = "{0} obrigatório")]
+        public DateTime DataRealizado { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+
+        [Display(Name = "Observação")]
+        [MaxLength(250, ErrorMessage = "Campo {0} tem mais que 500 caracteres")]
+        public string Observacao { get; set; } = string.Empty;
+
+
+    }
+}
