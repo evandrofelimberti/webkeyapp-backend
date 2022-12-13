@@ -46,7 +46,7 @@ namespace WebAppKey.Controllers
         }
         
       [HttpPost]
-      public async Task<IActionResult> PostProduto(UnidadeDto unidadeDto)
+      public async Task<ActionResult> PostUnidade(UnidadeDto unidadeDto)
       {
           var unidade = new Unidade
           {
@@ -59,7 +59,7 @@ namespace WebAppKey.Controllers
               return BadRequest("Unidade é null");
           }            
           await _unidadeService.Add(unidade);
-          return CreatedAtAction(nameof(GetUnidade), new { Id = unidade.Id }, unidade);
+          return Ok(unidade);
       }      
         
         [HttpDelete("{id}")]

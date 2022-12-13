@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WebAppKey.DTO;
 
 namespace WebAppKey.Models
 {
@@ -16,6 +17,12 @@ namespace WebAppKey.Models
         [Required(ErrorMessage = "{0} obrigatório")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double AreaHa { get; set; } = 0;
+
+        public void FromLavoutaDto(LavouraDTO lavouraDto)
+        {
+            this.Descricao = lavouraDto.Descricao;
+            this.AreaHa = lavouraDto.AreaHa;
+        }
 
     }
 }
