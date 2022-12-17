@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using WebAppKey.DTO;
 
 namespace WebAppKey.Models
 {
@@ -15,7 +16,6 @@ namespace WebAppKey.Models
 
         [Required]
         public int LavouraId { get; set; }
-        [JsonIgnore]
         public Lavoura Lavoura { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -27,6 +27,12 @@ namespace WebAppKey.Models
         [MaxLength(250, ErrorMessage = "Campo {0} tem mais que 500 caracteres")]
         public string Observacao { get; set; } = string.Empty;
 
-
+        public void FromMovimentoLavouraDTO(MovimentoLavouraDTO movimentoLavouraDto)
+        {
+            this.LavouraId = movimentoLavouraDto.LavouraId;
+            this.Observacao = movimentoLavouraDto.Observacao;
+            this.DataRealizado = movimentoLavouraDto.DataRealizado;
+        }
+        
     }
 }

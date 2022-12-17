@@ -18,6 +18,8 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             .Where(m => m.Id == Id)
             .Include(m => m.Itens)
             .Include(tm => tm.TipoMovimento)
+            .Include(ml => ml.MovimentoLavoura)
+            .ThenInclude(l => l.Lavoura)
             .FirstOrDefaultAsync();
         if (movimento == null)
         {
@@ -32,6 +34,8 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         var movimentos = await _context.Movimento
             .Include(m => m.Itens)
             .Include(tm => tm.TipoMovimento)
+            .Include(ml => ml.MovimentoLavoura)
+            .ThenInclude(l => l.Lavoura)
             .ToListAsync();
         return movimentos;
     }
@@ -39,9 +43,11 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
     public async Task<Movimento> CreateMovimento(MovimentoDTO movimentoDto)
     {
         var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
+        var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));        
         var movimento = new Movimento();
         movimento.FromMovimentoDTO(movimentoDto);
         movimento.TipoMovimento = tipomovimento;
+        movimento.MovimentoLavoura.Lavoura = lavoura;
         
         await Add(movimento);
         return movimento;
@@ -52,9 +58,11 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         try
         {
             var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
+            var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
             var movimento = await GetById(Id);
             movimento.FromMovimentoDTO(movimentoDto);
             movimento.TipoMovimento = tipomovimento;
+            movimento.MovimentoLavoura.Lavoura = lavoura;
         
             await Update(movimento);
             return movimento;

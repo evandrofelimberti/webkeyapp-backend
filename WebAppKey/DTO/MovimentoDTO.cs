@@ -15,4 +15,6 @@ public class MovimentoDTO
     
     public ICollection<MovimentoItemDTO> Itens { get; set; } = new List<MovimentoItemDTO>();
 
+    public MovimentoLavouraDTO MovimentoLavoura { get; set; } = new MovimentoLavouraDTO();
+
 }
