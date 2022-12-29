@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebAppKey.Data;
@@ -11,9 +12,10 @@ using WebAppKey.Data;
 namespace WebAppKey.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221228232537_Safra")]
+    partial class Safra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,10 +170,6 @@ namespace WebAppKey.Migrations
                         .HasColumnType("character varying(250)")
                         .HasColumnName("observacao");
 
-                    b.Property<int>("SafraId")
-                        .HasColumnType("integer")
-                        .HasColumnName("safraid");
-
                     b.HasKey("Id")
                         .HasName("pk_movimentolavoura");
 
@@ -181,9 +179,6 @@ namespace WebAppKey.Migrations
                     b.HasIndex("MovimentoId")
                         .IsUnique()
                         .HasDatabaseName("ix_movimentolavoura_movimentoid");
-
-                    b.HasIndex("SafraId")
-                        .HasDatabaseName("ix_movimentolavoura_safraid");
 
                     b.ToTable("movimentolavoura", (string)null);
                 });
@@ -395,18 +390,9 @@ namespace WebAppKey.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_movimentolavoura_movimento_movimentoid");
 
-                    b.HasOne("WebAppKey.Models.Safra", "Safra")
-                        .WithMany()
-                        .HasForeignKey("SafraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_movimentolavoura_safra_safraid");
-
                     b.Navigation("Lavoura");
 
                     b.Navigation("Movimento");
-
-                    b.Navigation("Safra");
                 });
 
             modelBuilder.Entity("WebAppKey.Models.Produto", b =>

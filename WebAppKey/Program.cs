@@ -26,6 +26,7 @@ builder.Services.AddScoped<ITipoMovimentoService, TipoMovimentoService>();
 builder.Services.AddScoped<IMovimentoService, MovimentoService>();
 builder.Services.AddScoped<IMovimentoItemService, MovimentoItemService>();
 builder.Services.AddScoped<ILavouraService, LavouraService>();
+builder.Services.AddScoped<ISafraService, SafraService>();
 
 /*var options = new JsonSerializerOptions
 {

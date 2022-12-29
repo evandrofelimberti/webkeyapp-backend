@@ -17,6 +17,10 @@ namespace WebAppKey.Models
         [Required]
         public int LavouraId { get; set; }
         public Lavoura Lavoura { get; set; }
+        
+        [Required]
+        public int SafraId { get; set; }
+        public Safra Safra { get; set; }        
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data Realizado")]
@@ -32,6 +36,7 @@ namespace WebAppKey.Models
             this.LavouraId = movimentoLavouraDto.LavouraId;
             this.Observacao = movimentoLavouraDto.Observacao;
             this.DataRealizado = movimentoLavouraDto.DataRealizado;
+            this.SafraId = movimentoLavouraDto.SafraId;
         }
         
     }
