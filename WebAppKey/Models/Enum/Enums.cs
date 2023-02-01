@@ -22,5 +22,11 @@ namespace WebAppKey.Models.Enum
         tmEntrada,
         tmSaida
     }
+
+    public enum eTipoUsuario
+    {
+        tuNenhum,
+        tuAdmin
+    }
     
 }

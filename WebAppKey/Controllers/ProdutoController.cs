@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebAppKey.Models;
 using WebAppKey.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace WebAppKey.Controllers
         }
 
         [HttpGet]
+        [Authorize]           
         public async Task<ActionResult<List<Produto>>> Get()
         {
             var produtos = await _produtoServices.GetAll();
@@ -31,6 +33,7 @@ namespace WebAppKey.Controllers
         
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]           
         [Route("GetById")]
         public async Task<Produto> GetById(int produtoId)
         {
