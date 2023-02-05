@@ -31,7 +31,7 @@ builder.Services.AddScoped<IMovimentoService, MovimentoService>();
 builder.Services.AddScoped<IMovimentoItemService, MovimentoItemService>();
 builder.Services.AddScoped<ILavouraService, LavouraService>();
 builder.Services.AddScoped<ISafraService, SafraService>();
-builder.Services.AddScoped<AutenticacaoController, AutenticacaoController>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 /*var options = new JsonSerializerOptions
 {

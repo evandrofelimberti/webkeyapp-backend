@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebAppKey.Models;
-using WebAppKey.Data;
-using WebAppKey.DTO;
-using Microsoft.EntityFrameworkCore;
-using WebAppKey.Services;
-using WebAppKey.Services.Interfaces;
+﻿    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using WebAppKey.Models;
+    using WebAppKey.Data;
+    using WebAppKey.DTO;
+    using Microsoft.EntityFrameworkCore;
+    using WebAppKey.Services;
+    using WebAppKey.Services.Interfaces;
 
-namespace WebAppKey.Controllers
-{
+    namespace WebAppKey.Controllers
+    {
     [Route("api/[controller]")]
     [ApiController]
     public class UnidadeController : ControllerBase
@@ -92,6 +92,6 @@ namespace WebAppKey.Controllers
             }
 
         }        
-        
+            
+        }
     }
-}
