@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.DTO;
 using WebAppKey.Models;
+using WebAppKey.Models.Enum;
 using WebAppKey.Services.Interfaces;
 
 
@@ -69,5 +70,28 @@ namespace WebAppKey.Controllers;
         {
             await _movimentoServices.DeleteById(id);
             return HttpStatusCode.OK;
+        }
+        
+        [HttpGet]
+        [Route("LavouraSafra")]
+        public async Task<IActionResult> Get(int idSafra, int idLavoura)
+        {
+            var totaldespesas = 0.0;
+            var totalreceita = 0.0;
+            
+            var despesas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmEntrada);
+            var receitas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmSaida);
+
+            totaldespesas = (despesas as ICollection<Movimento>).Sum(d => d.Total);
+            
+            totalreceita = (receitas as ICollection<Movimento>).Sum(d => d.Total);
+
+            return Ok(new
+            {
+                Lucro = (totalreceita - totaldespesas),
+                Despesas = despesas,
+                Colheita = receitas
+            });
+            
         }        
     }

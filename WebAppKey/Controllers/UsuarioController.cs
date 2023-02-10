@@ -27,7 +27,6 @@ public class UsuarioController : ControllerBase
     {
         try
         {
-        //var userExists = await _usuarioService.GetUsuario(usuarioDto.Nome);
 
         var userExists = await _usuarioService.FirstOrDefault(u => u.Nome.ToLower() == usuarioDto.Nome.ToLower());
 

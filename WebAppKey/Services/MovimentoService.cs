@@ -1,7 +1,10 @@
+using System.Collections;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
 using WebAppKey.DTO;
 using WebAppKey.Models;
+using WebAppKey.Models.Enum;
 using WebAppKey.Services.Interfaces;
 
 namespace WebAppKey.Services;
@@ -71,6 +74,14 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         {
             throw new Exception($"Erro ao Atualizar Movimento {Id}. \n" +  ex.Message);
         }
+    }
 
-    }      
+    public async Task<IEnumerable<Movimento>> GetMovimentoLavouraSafra(int idSafra, int idLavoura, eTipoMovimento tipoMovimento)
+    {
+        var despesas = await _context.Movimento
+            .Where(m => m.MovimentoLavoura.Safra.Id == idSafra &&
+                        m.MovimentoLavoura.Lavoura.Id == idLavoura &&
+                        m.TipoMovimento.Tipo == tipoMovimento).ToListAsync();
+        return despesas;
+    }
 }

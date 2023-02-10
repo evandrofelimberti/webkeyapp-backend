@@ -35,7 +35,7 @@ public class UsuarioService : RepositoryBase<Usuario>, IUsuarioService
                 new Claim(ClaimTypes.Name, usuario.Nome.ToString()),
                 new Claim(ClaimTypes.Role, RoleFactory(usuario.Tipo))
             }),
-            Expires = DateTime.UtcNow.AddDays(1),
+            Expires = DateTime.UtcNow.AddDays(30),
 
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
