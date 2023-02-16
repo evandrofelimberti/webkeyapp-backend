@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Immutable;
+using System.Linq.Expressions;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.DTO;
@@ -76,19 +79,27 @@ namespace WebAppKey.Controllers;
         [Route("LavouraSafra")]
         public async Task<IActionResult> Get(int idSafra, int idLavoura)
         {
-            var totaldespesas = 0.0;
-            var totalreceita = 0.0;
-            
-            var despesas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmEntrada);
+            double somaQuantidade = 0.0;
             var receitas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmSaida);
-
-            totaldespesas = (despesas as ICollection<Movimento>).Sum(d => d.Total);
+            var despesas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmEntrada);
+            double totaldespesas = despesas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
+            double totalreceita = receitas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
             
-            totalreceita = (receitas as ICollection<Movimento>).Sum(d => d.Total);
+            double valorLucro = (totalreceita - totaldespesas);
+            double totalArea = receitas.Sum(a => a.MovimentoLavoura.Lavoura.AreaHa);
+            var itens = receitas.Select(m => m.Itens).ToList();
+            foreach (var movItem in itens)
+            {
+                somaQuantidade +=((movItem).Select(i => i.Quantidade).DefaultIfEmpty(0.0).Sum());
+            }
 
+            double mediaSacaHa = somaQuantidade / totalArea; 
+            
             return Ok(new
             {
-                Lucro = (totalreceita - totaldespesas),
+                Lucro = valorLucro,
+                AreaHa = totalArea,
+                MediaSacasHa = mediaSacaHa,
                 Despesas = despesas,
                 Colheita = receitas
             });

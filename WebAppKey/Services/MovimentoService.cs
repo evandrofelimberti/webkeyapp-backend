@@ -76,9 +76,12 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         }
     }
 
-    public async Task<IEnumerable<Movimento>> GetMovimentoLavouraSafra(int idSafra, int idLavoura, eTipoMovimento tipoMovimento)
+    public async Task<ICollection<Movimento>> GetMovimentoLavouraSafra(int idSafra, int idLavoura, eTipoMovimento tipoMovimento)
     {
         var despesas = await _context.Movimento
+            .Include(i => i.Itens)
+            .Include(ml => ml.MovimentoLavoura)
+            .Include(l => l.MovimentoLavoura.Lavoura)
             .Where(m => m.MovimentoLavoura.Safra.Id == idSafra &&
                         m.MovimentoLavoura.Lavoura.Id == idLavoura &&
                         m.TipoMovimento.Tipo == tipoMovimento).ToListAsync();
