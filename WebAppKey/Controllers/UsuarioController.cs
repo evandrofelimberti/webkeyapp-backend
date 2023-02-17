@@ -42,7 +42,7 @@ public class UsuarioController : ControllerBase
 
         return Ok(new
         {
-            Token = token,
+            token = token,
             Usuario = userExists
         });
 
