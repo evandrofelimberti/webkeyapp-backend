@@ -33,10 +33,14 @@ namespace WebAppKey.Models
 
         public void FromMovimentoLavouraDTO(MovimentoLavouraDTO movimentoLavouraDto)
         {
-            this.LavouraId = movimentoLavouraDto.LavouraId;
-            this.Observacao = movimentoLavouraDto.Observacao;
-            this.DataRealizado = movimentoLavouraDto.DataRealizado;
-            this.SafraId = movimentoLavouraDto.SafraId;
+            if (movimentoLavouraDto.LavouraId > 0)
+            {
+                this.LavouraId = movimentoLavouraDto.LavouraId;
+                this.Observacao = movimentoLavouraDto.Observacao;
+                this.DataRealizado = movimentoLavouraDto.DataRealizado;
+                this.SafraId = movimentoLavouraDto.SafraId;
+            }
+
         }
         
     }

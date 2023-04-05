@@ -37,8 +37,9 @@ public class Movimento
     [JsonIgnore]
     public TipoMovimento TipoMovimento { get; set; }
     public ICollection<MovimentoItem> Itens { get; set; } = new List<MovimentoItem>();
-
-    public MovimentoLavoura MovimentoLavoura { get; set; } = new MovimentoLavoura();
+   
+    [JsonIgnore]
+    public MovimentoLavoura MovimentoLavoura { get; set; }
 
     [Display(Name = "Total")]
     [DisplayFormat(DataFormatString = "{0:F2}")]
@@ -56,7 +57,11 @@ public class Movimento
         this.DataInclusao = movimentoDto.DataInclusao;
         this.TipoMovimentoId = movimentoDto.TipoMovimentoId;
         this.Observacao = movimentoDto.Observacao;
-        this.MovimentoLavoura.FromMovimentoLavouraDTO(movimentoDto.MovimentoLavoura);
+        if ((movimentoDto.MovimentoLavoura != null) && (movimentoDto.MovimentoLavoura.LavouraId > 0))
+        {
+            this.MovimentoLavoura = new MovimentoLavoura();
+            this.MovimentoLavoura.FromMovimentoLavouraDTO(movimentoDto.MovimentoLavoura);
+        }
        
         foreach (var itemDto in movimentoDto.Itens)
         {   

@@ -38,7 +38,7 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             .Include(m => m.Itens)
             .Include(tm => tm.TipoMovimento)
             .Include(ml => ml.MovimentoLavoura)
-            .ThenInclude(l => l.Lavoura).OrderByDescending(o => o.MovimentoLavoura.DataRealizado)
+            .ThenInclude(l => l.Lavoura).OrderByDescending(o => o.Id)
             .ToListAsync();
         return movimentos;
     }
@@ -46,12 +46,15 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
     public async Task<Movimento> CreateMovimento(MovimentoDTO movimentoDto)
     {
         var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
-        var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));        
         var movimento = new Movimento();
         movimento.FromMovimentoDTO(movimentoDto);
         movimento.TipoMovimento = tipomovimento;
-        movimento.MovimentoLavoura.Lavoura = lavoura;
-        
+        if (movimentoDto.MovimentoLavoura.LavouraId > 0)
+        {
+            var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
+            movimento.MovimentoLavoura.Lavoura = lavoura;
+        }
+       
         await Add(movimento);
         return movimento;
     }
@@ -61,12 +64,15 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         try
         {
             var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
-            var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
             var movimento = await GetById(Id);
             movimento.FromMovimentoDTO(movimentoDto);
             movimento.TipoMovimento = tipomovimento;
-            movimento.MovimentoLavoura.Lavoura = lavoura;
-        
+            if (movimentoDto.MovimentoLavoura.LavouraId > 0)
+            {
+                var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
+                movimento.MovimentoLavoura.Lavoura = lavoura;
+            }
+            
             await Update(movimento);
             return movimento;
         }
