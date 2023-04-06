@@ -1,12 +1,37 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+[Bb]in/
+[Oo]bj/
+# build folder is nowadays used for build scripts and should not be ignored
+#build/
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
 .vs/
-*.exe
-*.exe
-WebAppKey/obj/Debug/net6.0/ref/WebAppKey.dll
-WebAppKey/obj/Debug/net6.0/ref/WebAppKey.dll
-WebAppKey/obj/Debug/net6.0/refint/WebAppKey.dll
-WebAppKey/obj/Debug/net6.0/WebAppKey.csproj.CoreCompileInputs.cache
-WebAppKey/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
-*.dll
-*.dll
-*.dll
-*.dll
+.idea/
+/bin
+**/bin    
+**/obj
+***/Debug
+**/.idea
+WebAppKey/**/Debug
+*/**/bin/Debug
+*/**/bin/Release
+*/**/obj/Debug
+*/**/obj/Release
+/WebAppKey/bin/Debug
+/WebAppKey/bin/Debug/net6.0
+WebAppKey/obj/Debug/net6.0/
