@@ -15,6 +15,18 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         
     }
     
+    new public async Task<Produto> GetById(int Id)
+    {
+        var produto = await _context.Produto
+            .Where(p => p.Id == Id)
+            .FirstOrDefaultAsync();
+        if (produto == null)
+        {
+            throw new Exception($"Identificador {Id} não encontrado!");
+        }
+        return produto;
+    }    
+    
     new public async Task<IEnumerable<Produto>> GetAll()
     {
         var produtos = await _context.Produto

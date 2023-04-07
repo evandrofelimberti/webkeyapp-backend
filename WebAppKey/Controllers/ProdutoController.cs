@@ -34,10 +34,10 @@ namespace WebAppKey.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]           
-        [Route("GetById")]
-        public async Task<Produto> GetById(int produtoId)
+        [Route("{id}")]        
+        public async Task<Produto> GetById(int id)
         {
-            var produto = await _produtoServices.GetById(produtoId);
+            var produto = await _produtoServices.GetById(id);
             return produto;
         }
       
