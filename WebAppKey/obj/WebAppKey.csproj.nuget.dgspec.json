@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\evand\\Documents\\Desenvolvimento\\C#\\WebAppKey\\WebAppKey\\WebAppKey.csproj": {}
+    "C:\\Evandro\\DEV\\webkeyapp-backend\\WebAppKey\\WebAppKey.csproj": {}
   },
   "projects": {
-    "C:\\Users\\evand\\Documents\\Desenvolvimento\\C#\\WebAppKey\\WebAppKey\\WebAppKey.csproj": {
+    "C:\\Evandro\\DEV\\webkeyapp-backend\\WebAppKey\\WebAppKey.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\evand\\Documents\\Desenvolvimento\\C#\\WebAppKey\\WebAppKey\\WebAppKey.csproj",
+        "projectUniqueName": "C:\\Evandro\\DEV\\webkeyapp-backend\\WebAppKey\\WebAppKey.csproj",
         "projectName": "WebAppKey",
-        "projectPath": "C:\\Users\\evand\\Documents\\Desenvolvimento\\C#\\WebAppKey\\WebAppKey\\WebAppKey.csproj",
-        "packagesPath": "C:\\Users\\evand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\evand\\Documents\\Desenvolvimento\\C#\\WebAppKey\\WebAppKey\\obj\\",
+        "projectPath": "C:\\Evandro\\DEV\\webkeyapp-backend\\WebAppKey\\WebAppKey.csproj",
+        "packagesPath": "C:\\Users\\evandro.felimberti\\.nuget\\packages\\",
+        "outputPath": "C:\\Evandro\\DEV\\webkeyapp-backend\\WebAppKey\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\evand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\evandro.felimberti\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,6 +46,10 @@
             "EFCore.NamingConventions": {
               "target": "Package",
               "version": "[6.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.13, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
@@ -94,7 +98,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -106,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
