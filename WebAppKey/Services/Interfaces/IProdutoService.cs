@@ -9,5 +9,6 @@ public interface IProdutoService: IRepositoryBase<Produto>
     Task<Produto> UpdateProduto(int Id, ProdutoDTO produtoDto);
     Task<Produto>  CreateProduto(ProdutoDTO produtoDto);
     new Task<Produto> GetById(int Id);
+    void DeleteProduto(int Id);
 
 }

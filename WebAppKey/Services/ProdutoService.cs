@@ -70,9 +70,29 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         {
             throw new Exception($"Erro ao Salvar Produto {produtoDto.Descricao}. \n" + e.Message);
         }
-
     }
 
+    public void DeleteProduto(int Id)
+    {
+        try
+        {
+             bool possuiProduto = _context.MovimentoItem.Where(i => i.Produto.Id == Id).Any();
+            if (possuiProduto)
+            {
+                throw new Exception($"Produto possui movimentação! ");
+            }
+
+            base.DeleteById(Id);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+    }    
+    
     /*  public async Task<ActionResult<List<Produto>>> FindAll()
     {
         return await _context.Produtos.ToListAsync();

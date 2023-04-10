@@ -67,7 +67,7 @@ namespace WebAppKey.Controllers
        {
            try
            {
-               await _produtoServices.DeleteById(id);
+               _produtoServices.DeleteProduto(id);
                return Ok("Produto Deletado!");
            } catch(Exception  e)
            {
