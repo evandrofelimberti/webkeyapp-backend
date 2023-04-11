@@ -30,7 +30,16 @@ namespace WebAppKey.Controllers
             var produtos = await _produtoServices.GetAll();
             return Ok(produtos);
         }
-        
+
+        [HttpGet]
+        [Authorize]
+        [Route("Filtro")]
+        public async Task<ActionResult<List<Produto>>> GetProduto(string nome)
+        {
+            var produtos = await _produtoServices.GetAll();
+            var produto = produtos.Where(p => p.Nome.ToLower().Contains(nome.ToLower())).ToList();
+            return Ok(produto);
+        }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]           
