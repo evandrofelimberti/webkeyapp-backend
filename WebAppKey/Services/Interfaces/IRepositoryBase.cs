@@ -12,8 +12,8 @@ public interface IRepositoryBase<T> where T: class
     
     Task Add(T entity);
     Task Update(T entity);
-    Task Delete(T entity);
-    Task DeleteById(int Id);
+    void Delete(T entity);
+    void DeleteById(int Id);
 
 
     /*     

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.Models;
 using WebAppKey.Data;
@@ -63,7 +63,7 @@ namespace WebAppKey.Controllers
         }
 
        [HttpDelete("{id}")]
-       public async Task<ActionResult<List<Produto>>> Delete(int id)
+       public ActionResult<List<Produto>> Delete(int id)
        {
            try
            {

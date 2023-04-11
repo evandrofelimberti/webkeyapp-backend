@@ -45,9 +45,9 @@ namespace WebAppKey.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TipoProduto>> Delete(int id)
+        public ActionResult<TipoProduto> Delete(int id)
         {
-            await _tipoProdutoService.DeleteById(id);
+            _tipoProdutoService.DeleteById(id);
             return Ok("Tipo Produto deletado!");
         }
         

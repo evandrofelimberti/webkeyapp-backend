@@ -22,16 +22,17 @@ AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<DataContext, DataContext>();
-builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-builder.Services.AddScoped<IUnidadeService, UnidadeService>();
-builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<ITipoProdutoService, TipoProdutoService>();
-builder.Services.AddScoped<ITipoMovimentoService, TipoMovimentoService>();
-builder.Services.AddScoped<IMovimentoService, MovimentoService>();
-builder.Services.AddScoped<IMovimentoItemService, MovimentoItemService>();
-builder.Services.AddScoped<ILavouraService, LavouraService>();
-builder.Services.AddScoped<ISafraService, SafraService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddTransient<IUnidadeService, UnidadeService>();
+builder.Services.AddTransient<IProdutoService, ProdutoService>();
+builder.Services.AddTransient<ITipoProdutoService, TipoProdutoService>();
+builder.Services.AddTransient<ITipoMovimentoService, TipoMovimentoService>();
+builder.Services.AddTransient<IMovimentoService, MovimentoService>();
+builder.Services.AddTransient<IMovimentoItemService, MovimentoItemService>();
+builder.Services.AddTransient<ILavouraService, LavouraService>();
+builder.Services.AddTransient<ISafraService, SafraService>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+
 
 /*var options = new JsonSerializerOptions
 {

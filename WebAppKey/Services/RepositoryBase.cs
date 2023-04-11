@@ -25,6 +25,17 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return entity;
     }
 
+    public T GetByIdFind(int Id)
+    {
+        var entity = _context.Set<T>().Find(Id);
+        if (entity == null)
+        {
+            throw new Exception($"Identificador {Id} não encontrado!");
+        }
+
+        return entity;
+    }
+
     public async Task<IEnumerable<T>> GetAll()
     {
         return await _context.Set<T>().ToListAsync();
@@ -56,18 +67,23 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(T entity)
+    public void Delete(T entity)
     {
         _context.Set<T>().Remove(entity);
-        await _context.SaveChangesAsync();
+        _context.SaveChangesAsync();
     }
 
-    public async Task DeleteById(int Id)
+    public void DeleteById(int Id)
     {
         try
         {
-            var entity = await GetById(Id);
-            await Delete(entity);
+            var entity = GetByIdFind(Id);
+            if (entity == null)
+            {
+                throw new Exception($"Entidade não encontrada! {Id}! \n");
+            }
+
+            Delete(entity);
         }
         catch (Exception e)
         {

@@ -1,4 +1,4 @@
-﻿    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using WebAppKey.Models;
     using WebAppKey.Data;
@@ -63,11 +63,11 @@
       }      
         
         [HttpDelete("{id}")]
-        public async  Task<ActionResult<Unidade>> Delete(int id)
+        public  ActionResult<Unidade> Delete(int id)
         {
             try
             {
-                await _unidadeService.DeleteById(id);
+                _unidadeService.DeleteById(id);
                 return Ok("Unidade Deletada!");
             }
             catch (Exception e)

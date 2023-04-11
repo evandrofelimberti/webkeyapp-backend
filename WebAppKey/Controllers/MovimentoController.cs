@@ -69,9 +69,9 @@ namespace WebAppKey.Controllers;
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<HttpStatusCode> Delete(int id)
+        public HttpStatusCode Delete(int id)
         {
-            await _movimentoServices.DeleteById(id);
+            _movimentoServices.DeleteById(id);
             return HttpStatusCode.OK;
         }
         
