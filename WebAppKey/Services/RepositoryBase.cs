@@ -70,7 +70,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     public void Delete(T entity)
     {
         _context.Set<T>().Remove(entity);
-        _context.SaveChangesAsync();
+        _context.SaveChanges();
     }
 
     public void DeleteById(int Id)

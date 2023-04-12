@@ -83,7 +83,6 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             }
 
             base.DeleteById(Id);
-
         }
         catch (Exception e)
         {
