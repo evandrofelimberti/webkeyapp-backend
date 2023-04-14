@@ -80,7 +80,7 @@ namespace WebAppKey.Controllers
                return Ok("Produto Deletado!");
            } catch(Exception  e)
            {
-               throw new Exception($"Erro ao Deletar Produto {id}. \n" + e.Message);
+               return BadRequest($"Erro ao Deletar Produto {id}. \n" + e.Message);
            }
        }
 

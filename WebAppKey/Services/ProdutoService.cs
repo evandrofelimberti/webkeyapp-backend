@@ -18,6 +18,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
     new public async Task<Produto> GetById(int Id)
     {
         var produto = await _context.Produto
+            .Include(u => u.Unidade)
+            .Include(t => t.TipoProduto)
             .Where(p => p.Id == Id)
             .FirstOrDefaultAsync();
         if (produto == null)

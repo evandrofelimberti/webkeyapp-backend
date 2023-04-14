@@ -35,10 +35,10 @@ namespace WebAppKey.Models
         [Required(ErrorMessage = "Campo {0} é obrigatório")]
         public int TipoProdutoId { get; set; } 
         
-        [JsonIgnore]
+        //[JsonIgnore]
         public TipoProduto TipoProduto { get; set; } 
         
-        [JsonIgnore]
+        //[JsonIgnore]
         public Unidade Unidade { get; set; }
 
         public Produto()

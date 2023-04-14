@@ -34,15 +34,10 @@
         }        
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Unidade>>> GetAll()
+        public async Task<ActionResult<IList<Unidade>>> GetAll()
         {
-           var unidade = await _unidadeService.GetAll();
-           if (unidade == null)
-           {
-               return BadRequest();
-           }
-           return Ok(unidade.ToList());           
-           
+           var unidades = await _unidadeService.GetAll();
+           return Ok(unidades);
         }
         
       [HttpPost]
