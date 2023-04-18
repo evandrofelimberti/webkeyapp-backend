@@ -21,6 +21,7 @@ namespace WebAppKey.Data
         public DbSet<MovimentoLavoura> MovimentoLavoura { get; set; }
         public DbSet<Safra> Safra { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<ProdutoSaldo> ProdutoSaldo { get; set; }
 
     }
 }
