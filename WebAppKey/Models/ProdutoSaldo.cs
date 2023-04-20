@@ -19,22 +19,22 @@ public class ProdutoSaldo
     public int ProdutoId { get; set; }
 
     [Required(ErrorMessage = "{0} obrigatório")]
-    [Range(Double.MaxValue, double.MaxValue, ErrorMessage ="{0} must be from {1} to {2}")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
     [Display(Name = "Valor Saldo")]
     [DisplayFormat(DataFormatString = "{0:F2}")]
-    public double ValorSaldo { get; set; }  
-    
+    public double ValorSaldo { get; set; } = 0;
+
     [Required(ErrorMessage = "{0} obrigatório")]
-    [Range(Double.MaxValue, double.MaxValue, ErrorMessage ="{0} must be from {1} to {2}")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
     [Display(Name = "Valor Entrada")]
     [DisplayFormat(DataFormatString = "{0:F2}")]
-    public double ValorEntrada { get; set; }
-    
+    public double ValorEntrada { get; set; } = 0;
+
     [Required(ErrorMessage = "{0} obrigatório")]
-    [Range(Double.MaxValue, double.MaxValue, ErrorMessage ="{0} must be from {1} to {2}")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
     [Display(Name = "Saldo Saida")]
     [DisplayFormat(DataFormatString = "{0:F2}")]
-    public double ValorSaida { get; set; }    
+    public double ValorSaida { get; set; } = 0;
     
     public ProdutoSaldo()
     {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
@@ -31,10 +32,28 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
     
     new public async Task<IEnumerable<Produto>> GetAll()
     {
+
+        //Using Method Syntax
+       /* var produto = _context.Produto
+            .GroupJoin(
+                _context.ProdutoSaldo,
+                p => p.Id,
+                s => s.ProdutoId,
+                (p, s) => new { p, s }
+            )
+            .SelectMany(
+                x => x.s.DefaultIfEmpty(),
+                (produto, saldo) => new
+                {
+                    Saldo = saldo == null ? 0.0 : saldo.ValorSaldo
+                }
+            );*/
+        
         var produtos = await _context.Produto
             .Include(u => u.Unidade)
             .Include(t => t.TipoProduto)
             .ToListAsync();
+       
         return produtos;
     }
     

@@ -15,4 +15,6 @@ public interface IMovimentoService: IRepositoryBase<Movimento>
     Task<Movimento> UpdateMovimento(int Id, MovimentoDTO movimentoDto);
 
     Task<ICollection<Movimento>> GetMovimentoLavouraSafra(int idSafra, int idLavoura, eTipoMovimento tipoMovimento);
+    
+    void DeleteMovimento(int Id);
 }

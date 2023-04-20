@@ -56,6 +56,8 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         }
        
         await Add(movimento);
+        var produtoSaldo = new ProdutoSaldoService(_context);
+        await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);
         return movimento;
     }
 
@@ -74,6 +76,8 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             }
             
             await Update(movimento);
+            var produtoSaldo = new ProdutoSaldoService(_context);
+            await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);            
             return movimento;
         }
         catch(Exception ex)
@@ -92,5 +96,18 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
                         m.MovimentoLavoura.Lavoura.Id == idLavoura &&
                         m.TipoMovimento.Tipo == tipoMovimento).ToListAsync();
         return despesas;
+    }
+
+    public void DeleteMovimento(int Id)
+    {
+        var movimento = _context.Movimento
+            .Where(m => m.Id == Id)
+            .Include(m => m.Itens)
+            .Include(tm => tm.TipoMovimento)
+            .FirstOrDefault();        
+        
+        base.DeleteById(Id);
+        var produtoSaldo = new ProdutoSaldoService(_context);
+        produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);        
     }
 }

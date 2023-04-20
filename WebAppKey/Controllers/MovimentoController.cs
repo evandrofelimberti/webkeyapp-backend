@@ -33,8 +33,15 @@ namespace WebAppKey.Controllers;
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> GetById(int id)
         {
-            var movimento =  await _movimentoServices.GetById(id);
-            return movimento;
+            try
+            {
+                var movimento =  await _movimentoServices.GetById(id);
+                return movimento;
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao Buscar Movimento \n" + e.Message);
+            }
         }
 
         [HttpPost]
@@ -47,7 +54,7 @@ namespace WebAppKey.Controllers;
             }
             catch (Exception e)
             {
-                throw new Exception($"Erro ao Salvar Movimento \n" + e.Message);
+                return BadRequest($"Erro ao Salvar Movimento \n" + e.Message);
             }
         }
 
@@ -55,54 +62,82 @@ namespace WebAppKey.Controllers;
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> Put(MovimentoDTO movimentoDto, int id)
         {
-            var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
-            return movimento;
+            try
+            {
+                var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
+                return Ok(movimento);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao Atualizar Movimento \n" + e.Message);
+            }
         }
         
         [HttpPatch]
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> Patch(MovimentoDTO movimentoDto, int id)
         {
-            var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
-            return movimento;
+
+            try
+            {
+                var movimento = await _movimentoServices.UpdateMovimento(id, movimentoDto);
+                return Ok(movimento);
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao Atualizar Movimento \n" + e.Message);
+            }
         }        
 
         [HttpDelete]
         [Route("{id}")]
-        public HttpStatusCode Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _movimentoServices.DeleteById(id);
-            return HttpStatusCode.OK;
+            try
+            {
+                _movimentoServices.DeleteMovimento(id);
+                return Ok("Movimento deletado!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao deletar o movimento \n" + e.Message);
+            }
         }
         
         [HttpGet]
         [Route("LavouraSafra")]
         public async Task<IActionResult> Get(int idSafra, int idLavoura)
         {
-            double somaQuantidade = 0.0;
-            var receitas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmSaida);
-            var despesas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmEntrada);
-            double totaldespesas = despesas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
-            double totalreceita = receitas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
-            
-            double valorLucro = (totalreceita - totaldespesas);
-            double totalArea = receitas.Sum(a => a.MovimentoLavoura.Lavoura.AreaHa);
-            var itens = receitas.Select(m => m.Itens).ToList();
-            foreach (var movItem in itens)
+            try
             {
-                somaQuantidade +=((movItem).Select(i => i.Quantidade).DefaultIfEmpty(0.0).Sum());
-            }
+                double somaQuantidade = 0.0;
+                var receitas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmSaida);
+                var despesas = await _movimentoServices.GetMovimentoLavouraSafra(idSafra, idLavoura, eTipoMovimento.tmEntrada);
+                double totaldespesas = despesas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
+                double totalreceita = receitas.Select(m => m.Total).DefaultIfEmpty(0.0).Sum();
+                
+                double valorLucro = (totalreceita - totaldespesas);
+                double totalArea = receitas.Sum(a => a.MovimentoLavoura.Lavoura.AreaHa);
+                var itens = receitas.Select(m => m.Itens).ToList();
+                foreach (var movItem in itens)
+                {
+                    somaQuantidade +=((movItem).Select(i => i.Quantidade).DefaultIfEmpty(0.0).Sum());
+                }
 
-            double mediaSacaHa = somaQuantidade / totalArea; 
-            
-            return Ok(new
+                double mediaSacaHa = somaQuantidade / totalArea; 
+                
+                return Ok(new
+                    {
+                        Lucro = valorLucro,
+                        AreaHa = totalArea,
+                        MediaSacasHa = mediaSacaHa,
+                        Despesas = despesas,
+                        Colheita = receitas
+                    });
+            }
+            catch (Exception e)
             {
-                Lucro = valorLucro,
-                AreaHa = totalArea,
-                MediaSacasHa = mediaSacaHa,
-                Despesas = despesas,
-                Colheita = receitas
-            });
-            
+                return BadRequest($"Erro ao buscar listagem de lavoura \n" + e.Message);
+            }
         }        
     }
