@@ -65,6 +65,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             var produto = await GetById(Id);
             produto.FromProdutoDto(produtoDto);
             await base.Update(produto);
+            var produtoSaldoService = new ProdutoSaldoService(_context);
+            await produtoSaldoService.AtualizaProdutoSaldoFromProduto(produtoDto, Id);
             return produto;
         }
         catch(Exception ex)
@@ -86,6 +88,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             newProduto.TipoProduto = tipoProduto;
 
             await base.Add(newProduto);
+            var produtoSaldoService = new ProdutoSaldoService(_context);
+            await produtoSaldoService.AtualizaProdutoSaldoFromProduto(produtoDto, newProduto.Id);            
             return await  GetById(newProduto.Id);
         }
         catch (Exception e)
@@ -105,6 +109,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             }
 
             await base.DeleteById(Id);
+            var produtoSaldoService = new ProdutoSaldoService(_context);
+            await produtoSaldoService.DeleteFromProdutoId(Id);  
             return true;
         }
         catch (Exception e)
@@ -115,21 +121,4 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
 
     }    
     
-    /*  public async Task<ActionResult<List<Produto>>> FindAll()
-    {
-        return await _context.Produtos.ToListAsync();
-    }
-
-    public async Task<IEnumerable<Produto>> ListAll()
-    {
-        return await _context.Produtos.ToListAsync();
-    }
-
-    public async Task<Produto> GetById(int Id)
-    {
-        return await _context.Produtos
-            .Where(p => p.Id == Id)
-            .Include(p => p.Unidade)
-            .Include(t => t.TipoProduto).FirstOrDefaultAsync();
-    }*/
 }

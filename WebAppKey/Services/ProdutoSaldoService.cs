@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
+using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Models.Enum;
 using WebAppKey.Services.Interfaces;
@@ -86,5 +87,40 @@ public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoSer
             throw new Exception($"Erro ao atualizar Produto Saldo! \n" +  e.Message);
         }
       
-    } 
+    }
+
+    public async Task<bool> AtualizaProdutoSaldoFromProduto(ProdutoDTO produtoDto, int produtoId)
+    {
+        var produtoSaldo = await _context.ProdutoSaldo.Where(p => p.ProdutoId == produtoId)
+            .FirstOrDefaultAsync();
+        var existeProdutoSaldo = true;
+        if (produtoSaldo == null)
+        {
+            existeProdutoSaldo = false;
+            produtoSaldo = new ProdutoSaldo();
+            produtoSaldo.ProdutoId = produtoId;
+        }
+        produtoSaldo.ValorVenda = produtoDto.ValorVenda;
+        if (existeProdutoSaldo)
+        {
+            await Update(produtoSaldo);
+        }
+        else
+        {
+            await Add(produtoSaldo);
+        }
+
+        return true;
+    }
+
+    public async Task<bool> DeleteFromProdutoId(int produtoId)
+    {
+        var produtoSaldoId = await _context.ProdutoSaldo.Where(p => p.ProdutoId == produtoId).FirstAsync();
+        if (produtoSaldoId != null)
+        {
+            await DeleteById(produtoSaldoId.Id);
+        }
+
+        return true;
+    }
 }
