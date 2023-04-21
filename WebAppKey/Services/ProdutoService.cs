@@ -21,6 +21,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         var produto = await _context.Produto
             .Include(u => u.Unidade)
             .Include(t => t.TipoProduto)
+            .Include(s => s.ProdutoSaldo)
             .Where(p => p.Id == Id)
             .FirstOrDefaultAsync();
         if (produto == null)
@@ -32,7 +33,6 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
     
     new public async Task<IEnumerable<Produto>> GetAll()
     {
-
         //Using Method Syntax
        /* var produto = _context.Produto
             .GroupJoin(
@@ -52,6 +52,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         var produtos = await _context.Produto
             .Include(u => u.Unidade)
             .Include(t => t.TipoProduto)
+            .Include(s => s.ProdutoSaldo)
             .ToListAsync();
        
         return produtos;
@@ -93,7 +94,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         }
     }
 
-    public void DeleteProduto(int Id)
+    public async Task<bool> DeleteProduto(int Id)
     {
         try
         {
@@ -103,7 +104,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
                 throw new Exception($"Produto possui movimentação! ");
             }
 
-            base.DeleteById(Id);
+            await base.DeleteById(Id);
+            return true;
         }
         catch (Exception e)
         {

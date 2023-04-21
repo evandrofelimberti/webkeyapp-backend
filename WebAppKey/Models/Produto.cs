@@ -40,6 +40,8 @@ namespace WebAppKey.Models
         
         //[JsonIgnore]
         public Unidade Unidade { get; set; }
+        
+        public ProdutoSaldo ProdutoSaldo { get; set; }
 
         public Produto()
         {

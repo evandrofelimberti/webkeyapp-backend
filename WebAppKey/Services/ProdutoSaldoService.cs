@@ -11,7 +11,7 @@ public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoSer
 {
     public ProdutoSaldoService(DataContext context):base(context)
     {
-       
+        
     }
 
     public async Task<bool> AtualizaProdutoSaldoFromMovimento(Movimento movimento)
@@ -41,6 +41,14 @@ public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoSer
                     .Where(m => m.ProdutoId == produtoId && m.Movimento.TipoMovimento.Tipo == eTipoMovimento.tmEntrada)
                     .Select(m => m.Quantidade).DefaultIfEmpty(0.0).Sum();
                 
+                var CustoEntrada = movimentoItens
+                    .Where(m => m.ProdutoId == produtoId && m.Movimento.TipoMovimento.Tipo == eTipoMovimento.tmEntrada)
+                    .OrderByDescending(item => item.Id).Select(v => v.Valor).FirstOrDefault(0.0);
+                
+                var CustoMedioEntrada = movimentoItens
+                    .Where(m => m.ProdutoId == produtoId && m.Movimento.TipoMovimento.Tipo == eTipoMovimento.tmEntrada)
+                    .Select(m => m.Valor).DefaultIfEmpty(0.0).Average();                   
+                
                 var saldoSaida = movimentoItens
                     .Where(m => m.ProdutoId == produtoId && m.Movimento.TipoMovimento.Tipo == eTipoMovimento.tmSaida)
                     .Select(m => m.Quantidade).DefaultIfEmpty(0.0).Sum();                
@@ -54,18 +62,20 @@ public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoSer
                     produtoSaldoAtual = new ProdutoSaldo();
                     produtoSaldoAtual.ProdutoId = produtoId;
                 }
-                
+
+                produtoSaldoAtual.ValorCompra = CustoEntrada;
+                produtoSaldoAtual.ValorMedioCompra = CustoMedioEntrada;
                 produtoSaldoAtual.ValorEntrada = saldoEntrada;
                 produtoSaldoAtual.ValorSaida = saldoSaida;
                 produtoSaldoAtual.ValorSaldo = (produtoSaldoAtual.ValorEntrada - produtoSaldoAtual.ValorSaida);
 
                 if (existeProdutoSaldo)
                 {
-                    await base.Update(produtoSaldoAtual);
+                    await Update(produtoSaldoAtual);
                 }
                 else
                 {
-                     await base.Add(produtoSaldoAtual);
+                     await Add(produtoSaldoAtual);
                 }
             }
 

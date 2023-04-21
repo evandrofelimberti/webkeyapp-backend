@@ -91,11 +91,11 @@ namespace WebAppKey.Controllers;
 
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                _movimentoServices.DeleteMovimento(id);
+                await _movimentoServices.DeleteMovimento(id);
                 return Ok("Movimento deletado!");
             }
             catch (Exception e)

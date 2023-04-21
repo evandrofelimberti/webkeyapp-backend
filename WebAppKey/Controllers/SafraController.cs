@@ -40,9 +40,9 @@ namespace WebAppKey.Controllers;
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Safra> Delete(int id)
+        public async Task<ActionResult<Safra>> Delete(int id)
         {
-            _safraService.DeleteById(id);
+            await _safraService.DeleteById(id);
             return Ok("Safra deletado!");
         }
         

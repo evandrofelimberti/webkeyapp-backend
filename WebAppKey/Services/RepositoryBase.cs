@@ -67,23 +67,23 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public void Delete(T entity)
+    public async Task Delete(T entity)
     {
-        _context.Set<T>().Remove(entity);
-        _context.SaveChanges();
+       _context.Set<T>().Remove(entity);
+       await _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int Id)
+    public async Task DeleteById(int Id)
     {
         try
         {
-            var entity = GetByIdFind(Id);
+            var entity = await GetById(Id);
             if (entity == null)
             {
                 throw new Exception($"Entidade não encontrada! {Id}! \n");
             }
 
-            Delete(entity);
+           await Delete(entity);
         }
         catch (Exception e)
         {

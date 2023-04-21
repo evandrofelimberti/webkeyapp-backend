@@ -36,6 +36,24 @@ public class ProdutoSaldo
     [DisplayFormat(DataFormatString = "{0:F2}")]
     public double ValorSaida { get; set; } = 0;
     
+    [Required(ErrorMessage = "{0} obrigatório")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
+    [Display(Name = "Valor Compra")]
+    [DisplayFormat(DataFormatString = "{0:F2}")]
+    public double ValorCompra { get; set; } = 0;    
+    
+    [Required(ErrorMessage = "{0} obrigatório")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
+    [Display(Name = "Valor Medio Compra")]
+    [DisplayFormat(DataFormatString = "{0:F2}")]
+    public double ValorMedioCompra { get; set; } = 0;
+
+    [Required(ErrorMessage = "{0} obrigatório")]
+    [Range(Double.MaxValue, double.MaxValue, ErrorMessage = "{0} must be from {1} to {2}")]
+    [Display(Name = "Valor Venda")]
+    [DisplayFormat(DataFormatString = "{0:F2}")]
+    public double ValorVenda { get; set; } = 0;        
+    
     public ProdutoSaldo()
     {
             

@@ -58,11 +58,11 @@
       }      
         
         [HttpDelete("{id}")]
-        public  ActionResult<Unidade> Delete(int id)
+        public async Task<ActionResult<Unidade>> Delete(int id)
         {
             try
             {
-                _unidadeService.DeleteById(id);
+                await _unidadeService.DeleteById(id);
                 return Ok("Unidade Deletada!");
             }
             catch (Exception e)

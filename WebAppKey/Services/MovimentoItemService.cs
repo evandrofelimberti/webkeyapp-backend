@@ -25,7 +25,7 @@ public class MovimentoItemService: RepositoryBase<MovimentoItem>, IMovimentoItem
     public async Task<Movimento> DeleteMovimentoItem(MovimentoDTO movimentoDto, int id)
     {
         var movimentoId = await _context.MovimentoItem.Where(m => m.Id == id).Select(m => m.MovimentoId).FirstOrDefaultAsync();
-        base.DeleteById(id);
+        await base.DeleteById(id);
         var movimentoService = new MovimentoService(_context);
         var movimento = await movimentoService.UpdateMovimento(movimentoId, movimentoDto);
         return movimento;

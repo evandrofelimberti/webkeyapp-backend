@@ -72,11 +72,11 @@ namespace WebAppKey.Controllers
         }
 
        [HttpDelete("{id}")]
-       public ActionResult<List<Produto>> Delete(int id)
+       public async Task<ActionResult<List<Produto>>> Delete(int id)
        {
            try
            {
-               _produtoServices.DeleteProduto(id);
+               await _produtoServices.DeleteProduto(id);
                return Ok("Produto Deletado!");
            } catch(Exception  e)
            {

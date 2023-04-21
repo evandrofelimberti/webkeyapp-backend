@@ -59,9 +59,9 @@ public class LavouraController : ControllerBase
     }
 
     [HttpDelete]
-    public  HttpStatusCode Delete(int id)
+    public async Task<HttpStatusCode> Delete(int id)
     {
-        _lavouraService.DeleteById(id);
+        await _lavouraService.DeleteById(id);
         return HttpStatusCode.OK;
     }
 }

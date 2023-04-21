@@ -98,7 +98,7 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         return despesas;
     }
 
-    public void DeleteMovimento(int Id)
+    public async Task<bool> DeleteMovimento(int Id)
     {
         var movimento = _context.Movimento
             .Where(m => m.Id == Id)
@@ -106,8 +106,14 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             .Include(tm => tm.TipoMovimento)
             .FirstOrDefault();        
         
-        base.DeleteById(Id);
-        var produtoSaldo = new ProdutoSaldoService(_context);
-        produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);        
+        await base.DeleteById(Id);
+        if (movimento != null)
+        {
+            var produtoSaldo = new ProdutoSaldoService(_context);
+            await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);            
+        }
+
+        
+        return true;
     }
 }
