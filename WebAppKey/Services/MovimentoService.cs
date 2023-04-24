@@ -38,7 +38,8 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             .Include(m => m.Itens)
             .Include(tm => tm.TipoMovimento)
             .Include(ml => ml.MovimentoLavoura)
-            .ThenInclude(l => l.Lavoura).OrderByDescending(o => o.Id)
+            .ThenInclude(l => l.Lavoura)
+            .OrderByDescending(o => o.Id)
             .ToListAsync();
         return movimentos;
     }

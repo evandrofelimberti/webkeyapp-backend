@@ -53,6 +53,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             .Include(u => u.Unidade)
             .Include(t => t.TipoProduto)
             .Include(s => s.ProdutoSaldo)
+            .OrderBy(p => p.Nome)
             .ToListAsync();
        
         return produtos;
