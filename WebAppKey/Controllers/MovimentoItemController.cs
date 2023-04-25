@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.DTO;
 using WebAppKey.Models;
@@ -17,6 +18,7 @@ namespace WebAppKey.Controllers;
         }
         
         [HttpDelete]
+        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> Delete(MovimentoDTO movimentoDto, int id)
         {

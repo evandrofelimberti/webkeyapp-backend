@@ -24,6 +24,7 @@ namespace WebAppKey.Controllers;
         }
         
         [HttpGet]
+        [Authorize]
         public async  Task<ActionResult<IEnumerable<Movimento>>> Get()
         {
             return Ok(await _movimentoServices.GetAll());
@@ -31,6 +32,7 @@ namespace WebAppKey.Controllers;
         }
 
         [HttpGet]        
+        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> GetById(int id)
         {
@@ -46,7 +48,7 @@ namespace WebAppKey.Controllers;
         }
         
         [HttpGet]
-       // [Authorize]
+        [Authorize]
         [Route("Filtro")]
         public async Task<ActionResult<List<Movimento>>> GetMovimento(string descricao)
         {
@@ -55,6 +57,7 @@ namespace WebAppKey.Controllers;
         }        
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Movimento>> Create(MovimentoDTO movimentoDto)
         {
             try
@@ -69,6 +72,7 @@ namespace WebAppKey.Controllers;
         }
 
         [HttpPut]
+        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> Put(MovimentoDTO movimentoDto, int id)
         {
@@ -84,6 +88,7 @@ namespace WebAppKey.Controllers;
         }
         
         [HttpPatch]
+        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<Movimento>> Patch(MovimentoDTO movimentoDto, int id)
         {
@@ -100,6 +105,7 @@ namespace WebAppKey.Controllers;
         }        
 
         [HttpDelete]
+        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
