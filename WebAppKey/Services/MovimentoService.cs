@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
@@ -99,13 +100,31 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         return despesas;
     }
 
+    public async Task<ICollection<Movimento>> GetFiltroMovimento(string descricao)
+    {
+        var movimentos = await GetAll();
+        var movimentosFilter = movimentos.Where(m => m.Observacao.ToUpper().Contains(descricao.ToUpper())).ToList();
+        if (!movimentosFilter.Any())
+        {
+           var produtosIds = await _context.Produto.Where(p => p.Nome.ToLower().Contains(descricao.ToLower()))
+                .Select(p => p.Id).ToListAsync();
+           
+           if (!produtosIds.Any()) return null;
+           
+           var movimentosFilterProduto = await _context.MovimentoItem.Where(m => produtosIds.Contains(m.ProdutoId)).Select(m => m.Movimento.Id).ToListAsync();
+
+           movimentosFilter = movimentos.Where(m => movimentosFilterProduto.Contains(m.Id)).ToList();
+        }
+        return movimentosFilter;
+    }    
+
     public async Task<bool> DeleteMovimento(int Id)
     {
         var movimento = _context.Movimento
             .Where(m => m.Id == Id)
             .Include(m => m.Itens)
             .Include(tm => tm.TipoMovimento)
-            .FirstOrDefault();        
+            .FirstOrDefault();
         
         await base.DeleteById(Id);
         if (movimento != null)
@@ -113,8 +132,6 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
             var produtoSaldo = new ProdutoSaldoService(_context);
             await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);            
         }
-
-        
         return true;
     }
 }

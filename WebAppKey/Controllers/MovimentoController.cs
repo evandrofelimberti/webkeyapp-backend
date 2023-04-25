@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Immutable;
 using System.Linq.Expressions;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.DTO;
 using WebAppKey.Models;
@@ -43,6 +44,15 @@ namespace WebAppKey.Controllers;
                 return BadRequest($"Erro ao Buscar Movimento \n" + e.Message);
             }
         }
+        
+        [HttpGet]
+       // [Authorize]
+        [Route("Filtro")]
+        public async Task<ActionResult<List<Movimento>>> GetMovimento(string descricao)
+        {
+            var movimento = await _movimentoServices.GetFiltroMovimento(descricao);
+            return Ok(movimento);
+        }        
 
         [HttpPost]
         public async Task<ActionResult<Movimento>> Create(MovimentoDTO movimentoDto)

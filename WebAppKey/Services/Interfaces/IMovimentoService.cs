@@ -13,6 +13,7 @@ public interface IMovimentoService: IRepositoryBase<Movimento>
     new Task<Movimento> GetById(int Id);
     
     Task<Movimento> UpdateMovimento(int Id, MovimentoDTO movimentoDto);
+    Task<ICollection<Movimento>> GetFiltroMovimento(string descricao);
 
     Task<ICollection<Movimento>> GetMovimentoLavouraSafra(int idSafra, int idLavoura, eTipoMovimento tipoMovimento);
     
