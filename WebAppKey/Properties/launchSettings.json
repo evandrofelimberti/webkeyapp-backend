@@ -1,10 +1,11 @@
 {
   "profiles": {
-    "WebAppKey": {
+      "WebAppKey": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "environmentVariables": {
+      "useSSL": true,
+        "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
