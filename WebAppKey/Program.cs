@@ -14,9 +14,19 @@ using WebAppKey.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+//{
+   // EnvironmentName = Environments.Production
+//});
+
+//builder.Configuration.GetValue<string>("Env");
+
+var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention();
+   // options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLowerCaseNamingConvention();
+   options.UseNpgsql(connectionString).UseLowerCaseNamingConvention();
 });
 AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);  
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -86,8 +96,16 @@ builder.Services.AddAuthentication(x =>
 
 var app = builder.Build();
 
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -106,4 +124,6 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
+
+
 
