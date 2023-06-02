@@ -34,11 +34,18 @@ namespace WebAppKey.Controllers
         [HttpGet]
         [Authorize]
         [Route("Filtro")]
-        public async Task<ActionResult<List<Produto>>> GetProduto(string nome)
+        public async Task<ActionResult<List<Produto>>> GetProduto([FromQuery] FiltroPaginacaoDTO filtroPaginacaoDto)
         {
-            var produtos = await _produtoServices.GetAll();
-            var produto = produtos.Where(p => p.Nome.ToLower().Contains(nome.ToLower())).ToList();
-            return Ok(produto);
+            var produtos = await _produtoServices.GetAllPagination(filtroPaginacaoDto);
+            var countProdutos = await _produtoServices.CountAsync();
+            var totalPaginas =  ((double)countProdutos / (double)filtroPaginacaoDto.TamanhoPagina);
+            int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
+            
+            return Ok(new
+            {
+                produtos = produtos,
+                totalPaginas = roundtotalPaginas 
+            });
         }
 
         [HttpGet]
