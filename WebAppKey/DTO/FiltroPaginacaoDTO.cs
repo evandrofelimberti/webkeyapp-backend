@@ -22,3 +22,8 @@ public class FiltroPaginacaoDTO
         // this.TamanhoPagina = tamanhoPagina > 10 ? 10 : tamanhoPagina;
     }
 }
+
+public class ResultadoPaginacaoDTO<T>{
+    public int TotalPaginas { get;  set; }
+    public ICollection<T> Data { get; set; }
+}

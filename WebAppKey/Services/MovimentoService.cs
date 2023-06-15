@@ -100,13 +100,16 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         return despesas;
     }
 
-    public async Task<ICollection<Movimento>> GetFiltroMovimento(string descricao)
+    public async Task<ResultadoPaginacaoDTO<Movimento>> GetFiltroMovimento(FiltroPaginacaoDTO filtroPaginacaoDto)
     {
+        var resultadoPaginacaoMovimento = new ResultadoPaginacaoDTO<Movimento>();
+        
+        var filtro = new FiltroPaginacaoDTO(filtroPaginacaoDto.NumeroPagina, filtroPaginacaoDto.TamanhoPagina, filtroPaginacaoDto.Nome);
         var movimentos = await GetAll();
-        var movimentosFilter = movimentos.Where(m => m.Observacao.ToUpper().Contains(descricao.ToUpper())).ToList();
+        var movimentosFilter = movimentos.Where(m => m.Observacao.ToUpper().Contains(filtro.Nome.ToUpper())).ToList();
         if (!movimentosFilter.Any())
         {
-           var produtosIds = await _context.Produto.Where(p => p.Nome.ToLower().Contains(descricao.ToLower()))
+           var produtosIds = await _context.Produto.Where(p => p.Nome.ToLower().Contains(filtro.Nome.ToLower()))
                 .Select(p => p.Id).ToListAsync();
            
            if (!produtosIds.Any()) return null;
@@ -115,7 +118,15 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
 
            movimentosFilter = movimentos.Where(m => movimentosFilterProduto.Contains(m.Id)).ToList();
         }
-        return movimentosFilter;
+        var countMovimentos = movimentosFilter.Count;
+        var totalPaginas =  ((double)countMovimentos / (double)filtroPaginacaoDto.TamanhoPagina);
+        int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
+
+        resultadoPaginacaoMovimento.TotalPaginas = roundtotalPaginas;
+        resultadoPaginacaoMovimento.Data = movimentosFilter.Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
+            .Take(filtro.TamanhoPagina).ToList();
+        
+        return resultadoPaginacaoMovimento;
     }    
 
     public async Task<bool> DeleteMovimento(int Id)

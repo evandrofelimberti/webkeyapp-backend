@@ -50,10 +50,16 @@ namespace WebAppKey.Controllers;
         [HttpGet]
         [Authorize]
         [Route("Filtro")]
-        public async Task<ActionResult<List<Movimento>>> GetMovimento(string descricao)
+        public async Task<ActionResult<List<Movimento>>> GetMovimento([FromQuery] FiltroPaginacaoDTO filtroPaginacaoDto)
         {
-            var movimento = await _movimentoServices.GetFiltroMovimento(descricao);
-            return Ok(movimento);
+            var movimento = await _movimentoServices.GetFiltroMovimento(filtroPaginacaoDto);
+
+            return Ok(new
+                {
+                    movimento = movimento.Data,
+                    totalPaginas = movimento.TotalPaginas
+                }
+            );
         }        
 
         [HttpPost]
