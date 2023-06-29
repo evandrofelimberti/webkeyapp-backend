@@ -37,14 +37,11 @@ namespace WebAppKey.Controllers
         public async Task<ActionResult<List<Produto>>> GetProduto([FromQuery] FiltroPaginacaoDTO filtroPaginacaoDto)
         {
             var produtos = await _produtoServices.GetAllPagination(filtroPaginacaoDto);
-            var countProdutos = await _produtoServices.CountAsync();
-            var totalPaginas =  ((double)countProdutos / (double)filtroPaginacaoDto.TamanhoPagina);
-            int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
-            
+           
             return Ok(new
             {
-                produtos = produtos,
-                totalPaginas = roundtotalPaginas 
+                produtos = produtos.Data,
+                totalPaginas = produtos.TotalPaginas 
             });
         }
 

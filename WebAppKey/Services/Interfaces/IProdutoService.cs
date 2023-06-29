@@ -9,7 +9,7 @@ public interface IProdutoService: IRepositoryBase<Produto>
     Task<Produto> UpdateProduto(int Id, ProdutoDTO produtoDto);
     Task<Produto>  CreateProduto(ProdutoDTO produtoDto);
     new Task<Produto> GetById(int Id);
-    Task<IEnumerable<Produto>> GetAllPagination(FiltroPaginacaoDTO filtroPaginacaoDto);
+    Task<ResultadoPaginacaoDTO<Produto>> GetAllPagination(FiltroPaginacaoDTO filtroPaginacaoDto);
     Task<int> CountAsync();
     Task<bool> DeleteProduto(int Id);
 

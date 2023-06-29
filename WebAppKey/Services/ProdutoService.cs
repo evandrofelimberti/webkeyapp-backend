@@ -59,8 +59,10 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         return produtos;
     }
     
-    public async Task<IEnumerable<Produto>> GetAllPagination(FiltroPaginacaoDTO filtrodto)
+    public async Task<ResultadoPaginacaoDTO<Produto>> GetAllPagination(FiltroPaginacaoDTO filtrodto)
     {
+        var resultPaginacao = new ResultadoPaginacaoDTO<Produto>();
+        
         var filtro = new FiltroPaginacaoDTO(filtrodto.NumeroPagina, filtrodto.TamanhoPagina, filtrodto.Nome);
         
         var produtos = await _context.Produto
@@ -68,12 +70,18 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             .Include(t => t.TipoProduto)
             .Include(s => s.ProdutoSaldo)
             .Where(p => p.Nome.ToLower().Contains(filtro.Nome.ToLower()))
-            .Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
-            .Take(filtro.TamanhoPagina)
             .OrderBy(p => p.Nome)
             .ToListAsync();
-       
-        return produtos;
+
+        var countMovimentos = produtos.Count;
+        var totalPaginas =  ((double)countMovimentos / (double)filtro.TamanhoPagina);
+        int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
+
+        resultPaginacao.TotalPaginas = roundtotalPaginas;
+        resultPaginacao.Data = produtos.Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
+                .Take(filtro.TamanhoPagina).ToList();            
+      
+        return resultPaginacao;
     }
     
     public async Task<int> CountAsync()
