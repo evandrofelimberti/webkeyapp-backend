@@ -18,12 +18,24 @@ public class FiltroPaginacaoDTO
         this.Nome = nome;
         this.NumeroPagina = numeroPagina;
         this.TamanhoPagina = tamanhoPagina;
-        // this.NumeroPagina = numeroPagina < 1 ? 1 : numeroPagina;
-        // this.TamanhoPagina = tamanhoPagina > 10 ? 10 : tamanhoPagina;
     }
 }
 
 public class ResultadoPaginacaoDTO<T>{
-    public int TotalPaginas { get;  set; }
-    public ICollection<T> Data { get; set; }
+    public int TotalPaginas { get;  private set; }
+    public ICollection<T> Data { get; private set; }
+    public FiltroPaginacaoDTO filtro { get; set; }
+    public ICollection<T> DataSemPaginacao { get; set; }
+
+    
+    public void CalcularPaginacao()
+    {
+        var countMovimentos = DataSemPaginacao.Count;
+        var totalPaginas =  ((double)countMovimentos / (double)filtro.TamanhoPagina);
+        int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
+
+        this.TotalPaginas = roundtotalPaginas;
+        this.Data = DataSemPaginacao.Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
+            .Take(filtro.TamanhoPagina).ToList();            
+    }
 }

@@ -118,13 +118,10 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
 
            movimentosFilter = movimentos.Where(m => movimentosFilterProduto.Contains(m.Id)).ToList();
         }
-        var countMovimentos = movimentosFilter.Count;
-        var totalPaginas =  ((double)countMovimentos / (double)filtroPaginacaoDto.TamanhoPagina);
-        int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
 
-        resultadoPaginacaoMovimento.TotalPaginas = roundtotalPaginas;
-        resultadoPaginacaoMovimento.Data = movimentosFilter.Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
-            .Take(filtro.TamanhoPagina).ToList();
+       resultadoPaginacaoMovimento.DataSemPaginacao = movimentosFilter;
+       resultadoPaginacaoMovimento.filtro = filtro;
+       resultadoPaginacaoMovimento.CalcularPaginacao();
         
         return resultadoPaginacaoMovimento;
     }    

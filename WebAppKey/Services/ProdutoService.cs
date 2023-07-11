@@ -73,14 +73,11 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             .OrderBy(p => p.Nome)
             .ToListAsync();
 
-        var countMovimentos = produtos.Count;
-        var totalPaginas =  ((double)countMovimentos / (double)filtro.TamanhoPagina);
-        int roundtotalPaginas = Convert.ToInt32(Math.Ceiling(totalPaginas));
+        resultPaginacao.DataSemPaginacao = produtos;
+        resultPaginacao.filtro = filtro;
 
-        resultPaginacao.TotalPaginas = roundtotalPaginas;
-        resultPaginacao.Data = produtos.Skip((filtro.NumeroPagina) * filtro.TamanhoPagina)
-                .Take(filtro.TamanhoPagina).ToList();            
-      
+        resultPaginacao.CalcularPaginacao();
+        
         return resultPaginacao;
     }
     
