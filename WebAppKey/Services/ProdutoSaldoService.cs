@@ -115,7 +115,7 @@ public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoSer
 
     public async Task<bool> DeleteFromProdutoId(int produtoId)
     {
-        var produtoSaldoId = await _context.ProdutoSaldo.Where(p => p.ProdutoId == produtoId).FirstAsync();
+        var produtoSaldoId = await _context.ProdutoSaldo.Where(p => p.ProdutoId == produtoId).FirstOrDefaultAsync();
         if (produtoSaldoId != null)
         {
             await DeleteById(produtoSaldoId.Id);

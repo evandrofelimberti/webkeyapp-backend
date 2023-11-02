@@ -143,8 +143,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            throw new Exception($"Erro ao Deletar Produto Id: {Id}. \n" + e.Message);
         }
 
     }    
