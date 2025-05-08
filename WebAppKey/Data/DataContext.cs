@@ -23,5 +23,26 @@ namespace WebAppKey.Data
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<ProdutoSaldo> ProdutoSaldo { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.ToTable("usuario");
+                
+                entity.HasKey(p => p.Id);
+                
+                entity.Property(p => p.Nome)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                
+                entity.Property(s => s.Senha)
+                    .HasMaxLength(100);
+                
+                entity.Property(t => t.Tipo)
+                    .HasColumnType("decimal(18,2)");
+
+            });
+        }
+
     }
 }

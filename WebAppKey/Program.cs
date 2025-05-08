@@ -11,16 +11,9 @@ using WebAppKey.Services;
 using WebAppKey.Services.Interfaces;
 using Newtonsoft.Json.Serialization;
 using WebAppKey.Controllers;
+using WebAppKey.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-//{
-   // EnvironmentName = Environments.Production
-//});
-
-//builder.Configuration.GetValue<string>("Env");
-
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -59,6 +52,8 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
 
