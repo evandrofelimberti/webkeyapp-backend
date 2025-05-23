@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
 using WebAppKey.DTO;
@@ -10,7 +11,7 @@ namespace WebAppKey.Services;
 
 public class ProdutoSaldoService: RepositoryBase<ProdutoSaldo>, IProdutoSaldoService
 {
-    public ProdutoSaldoService(DataContext context):base(context)
+    public ProdutoSaldoService(DataContext context, IMapper mapper) : base(context, mapper)
     {
         
     }

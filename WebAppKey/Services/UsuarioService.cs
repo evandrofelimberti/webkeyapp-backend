@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +18,7 @@ namespace WebAppKey.Services;
 
 public class UsuarioService : RepositoryBase<Usuario>, IUsuarioService
 {
-    public UsuarioService(DataContext context) : base(context)
+    public UsuarioService(DataContext context, IMapper mapper) : base(context, mapper)
     {
 
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Immutable;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
@@ -12,7 +13,7 @@ namespace WebAppKey.Services;
 
 public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
 {
-    public MovimentoService(DataContext context) : base(context)
+    public MovimentoService(DataContext context, IMapper mapper) : base(context, mapper)
     {
                 
     }
@@ -47,18 +48,18 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
 
     public async Task<Movimento> CreateMovimento(MovimentoDTO movimentoDto)
     {
-        var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
+        var tipomovimento =  await (new TipoMovimentoService(_context, _mapper).GetById(movimentoDto.TipoMovimentoId));
         var movimento = new Movimento();
         movimento.FromMovimentoDTO(movimentoDto);
         movimento.TipoMovimento = tipomovimento;
         if (movimentoDto.MovimentoLavoura.LavouraId > 0)
         {
-            var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
+            var lavoura = await (new LavouraService(_context, _mapper).GetById(movimentoDto.MovimentoLavoura.LavouraId));
             movimento.MovimentoLavoura.Lavoura = lavoura;
         }
        
         await Add(movimento);
-        var produtoSaldo = new ProdutoSaldoService(_context);
+        var produtoSaldo = new ProdutoSaldoService(_context, _mapper);
         await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);
         return movimento;
     }
@@ -67,18 +68,18 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
     {
         try
         {
-            var tipomovimento =  await (new TipoMovimentoService(_context).GetById(movimentoDto.TipoMovimentoId));
+            var tipomovimento =  await (new TipoMovimentoService(_context, _mapper).GetById(movimentoDto.TipoMovimentoId));
             var movimento = await GetById(Id);
             movimento.FromMovimentoDTO(movimentoDto);
             movimento.TipoMovimento = tipomovimento;
             if (movimentoDto.MovimentoLavoura.LavouraId > 0)
             {
-                var lavoura = await (new LavouraService(_context).GetById(movimentoDto.MovimentoLavoura.LavouraId));
+                var lavoura = await (new LavouraService(_context, _mapper).GetById(movimentoDto.MovimentoLavoura.LavouraId));
                 movimento.MovimentoLavoura.Lavoura = lavoura;
             }
             
             await Update(movimento);
-            var produtoSaldo = new ProdutoSaldoService(_context);
+            var produtoSaldo = new ProdutoSaldoService(_context, _mapper);
             await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);            
             return movimento;
         }
@@ -137,7 +138,7 @@ public class MovimentoService: RepositoryBase<Movimento>, IMovimentoService
         await base.DeleteById(Id);
         if (movimento != null)
         {
-            var produtoSaldo = new ProdutoSaldoService(_context);
+            var produtoSaldo = new ProdutoSaldoService(_context, _mapper);
             await produtoSaldo.AtualizaProdutoSaldoFromMovimento(movimento);            
         }
         return true;

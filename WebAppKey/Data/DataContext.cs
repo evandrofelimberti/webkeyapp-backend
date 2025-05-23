@@ -42,6 +42,25 @@ namespace WebAppKey.Data
                     .HasColumnType("decimal(18,2)");
 
             });
+
+            modelBuilder.Entity<Unidade>(entity =>
+            {
+                entity.ToTable("unidade"); 
+                
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Descricao)
+                    .IsRequired()
+                    .HasMaxLength(300);
+                
+                entity.Property(p => p.Sigla)
+                    .IsRequired()
+                    .HasMaxLength(3);
+                
+
+            });
+            
+            base.OnModelCreating(modelBuilder);
         }
 
     }

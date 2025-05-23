@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
 using WebAppKey.DTO;
@@ -8,7 +9,7 @@ namespace WebAppKey.Services;
 
 public class MovimentoItemService: RepositoryBase<MovimentoItem>, IMovimentoItemService
 {
-    public MovimentoItemService(DataContext context) : base(context)
+    public MovimentoItemService(DataContext context, IMapper mapper) : base(context, mapper)
     {
         
     }
@@ -26,7 +27,7 @@ public class MovimentoItemService: RepositoryBase<MovimentoItem>, IMovimentoItem
     {
         var movimentoId = await _context.MovimentoItem.Where(m => m.Id == id).Select(m => m.MovimentoId).FirstOrDefaultAsync();
         await base.DeleteById(id);
-        var movimentoService = new MovimentoService(_context);
+        var movimentoService = new MovimentoService(_context, _mapper);
         var movimento = await movimentoService.UpdateMovimento(movimentoId, movimentoDto);
         return movimento;
     }

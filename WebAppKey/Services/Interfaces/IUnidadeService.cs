@@ -7,6 +7,6 @@ public interface IUnidadeService: IRepositoryBase<Unidade>
 {
     Task<Unidade> GetByFirstDescricao(string descricao);
 
-    Task<Unidade>  UpdateUnidade(int id, UnidadeDto unidadeDto);
+    Task<UnidadeDto>  UpdateUnidade(int id, UnidadeDto unidadeDto);
 
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -11,7 +12,7 @@ using Data;
 public class ProdutoService: RepositoryBase<Produto>, IProdutoService
 {
 
-    public ProdutoService(DataContext context):base(context)
+    public ProdutoService(DataContext context, IMapper mapper) : base(context, mapper)
     {
         
     }
@@ -93,7 +94,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             var produto = await GetById(Id);
             produto.FromProdutoDto(produtoDto);
             await base.Update(produto);
-            var produtoSaldoService = new ProdutoSaldoService(_context);
+            var produtoSaldoService = new ProdutoSaldoService(_context, _mapper);
             await produtoSaldoService.AtualizaProdutoSaldoFromProduto(produtoDto, Id);
             return produto;
         }
@@ -107,8 +108,8 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
     {
         try
         {
-            var unidade = await (new UnidadeService(_context).GetById(produtoDto.UnidadeId));
-            var tipoProduto = await(new TipoProdutoService(_context).GetById(produtoDto.TipoProdutoId));
+            var unidade = await (new UnidadeService(_context, _mapper).GetById(produtoDto.UnidadeId));
+            var tipoProduto = await(new TipoProdutoService(_context, _mapper).GetById(produtoDto.TipoProdutoId));
 
             var newProduto = new Produto();
             newProduto.FromProdutoDto(produtoDto);
@@ -116,7 +117,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             newProduto.TipoProduto = tipoProduto;
 
             await base.Add(newProduto);
-            var produtoSaldoService = new ProdutoSaldoService(_context);
+            var produtoSaldoService = new ProdutoSaldoService(_context, _mapper);
             await produtoSaldoService.AtualizaProdutoSaldoFromProduto(produtoDto, newProduto.Id);            
             return await  GetById(newProduto.Id);
         }
@@ -137,7 +138,7 @@ public class ProdutoService: RepositoryBase<Produto>, IProdutoService
             }
 
             await base.DeleteById(Id);
-            var produtoSaldoService = new ProdutoSaldoService(_context);
+            var produtoSaldoService = new ProdutoSaldoService(_context, _mapper);
             await produtoSaldoService.DeleteFromProdutoId(Id);  
             return true;
         }

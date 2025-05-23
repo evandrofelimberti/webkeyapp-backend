@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
 using WebAppKey.DTO;
@@ -8,7 +9,7 @@ namespace WebAppKey.Services;
 
 public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
 {
-    public UnidadeService(DataContext context) : base(context)
+    public UnidadeService(DataContext context, IMapper mapper) : base(context, mapper)
     {
 
     }
@@ -18,7 +19,7 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
         return FirstOrDefault(u => u.Descricao == descricao);
     }
    
-    public async Task<Unidade> UpdateUnidade(int id, UnidadeDto unidadeDto)
+    public async Task<UnidadeDto> UpdateUnidade(int id, UnidadeDto unidadeDto)
     {
         try
         {
@@ -26,8 +27,13 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
             
             unidade.Descricao = unidadeDto.Descricao;
             unidade.Sigla = unidadeDto.Sigla;
-            await base.Update(unidade);
-            return unidade;
+            // copia os valores de unidadeDto para unidade 
+            _mapper.Map(unidadeDto, unidade);
+
+            await base.Update(unidade);            
+            // cria uma nova instancia 
+            return _mapper.Map<UnidadeDto>(unidade);
+
         }
         catch (Exception exception) 
         {

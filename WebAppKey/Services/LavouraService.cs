@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebAppKey.Data;
 using WebAppKey.DTO;
@@ -8,7 +9,7 @@ namespace WebAppKey.Services;
 
 public class LavouraService: RepositoryBase<Lavoura>, ILavouraService
 {
-    public LavouraService(DataContext context): base(context)
+    public LavouraService(DataContext context, IMapper mapper) : base(context, mapper)
     {
         
     }

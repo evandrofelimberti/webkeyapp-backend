@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WebAppKey.Data;
 using WebAppKey.Services.Interfaces;
@@ -8,10 +9,12 @@ namespace WebAppKey.Services;
 public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
     protected DataContext _context;
+    protected readonly IMapper _mapper;
 
-    public RepositoryBase(DataContext context)
+    public RepositoryBase(DataContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<T> GetById(int Id)

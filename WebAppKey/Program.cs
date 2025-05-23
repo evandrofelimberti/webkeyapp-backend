@@ -11,7 +11,12 @@ using WebAppKey.Services;
 using WebAppKey.Services.Interfaces;
 using Newtonsoft.Json.Serialization;
 using WebAppKey.Controllers;
+using WebAppKey.DTO;
+using WebAppKey.Models;
+using WebAppKey.Mutations;
 using WebAppKey.Profiles;
+using WebAppKey.Queries;
+using WebAppKey.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
@@ -53,7 +58,17 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<UnidadeDto, UnidadeType>();
+});
+
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<UnidadeQuery>()
+    .AddMutationType<UnidadeMutation>();
 
 builder.Services.AddControllers();
 
@@ -98,6 +113,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.MapGraphQL("/graphql");
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

@@ -1,3 +1,4 @@
+using AutoMapper;
 using WebAppKey.Data;
 using WebAppKey.DTO;
 using WebAppKey.Models;
@@ -7,7 +8,7 @@ namespace WebAppKey.Services;
 
 public class SafraService: RepositoryBase<Safra>, ISafraService
 {
-    public SafraService(DataContext context): base(context)
+    public SafraService(DataContext context, IMapper mapper) : base(context, mapper)
     {
         
     }
