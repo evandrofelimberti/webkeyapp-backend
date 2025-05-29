@@ -4,6 +4,7 @@ using WebAppKey.Data;
 using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
+using WebAppKey.Validators.Intefaces;
 
 namespace WebAppKey.Services;
 
@@ -11,12 +12,11 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
 {
     public UnidadeService(DataContext context, IMapper mapper) : base(context, mapper)
     {
-
     }
 
-    public Task<Unidade> GetByFirstDescricao(string descricao)
+    public Task<Unidade> GetByFirstSigla(string sigla)
     {
-        return FirstOrDefault(u => u.Descricao == descricao);
+        return FirstOrDefault(u => u.Sigla == sigla);
     }
    
     public async Task<UnidadeDto> UpdateUnidade(int id, UnidadeDto unidadeDto)
@@ -39,7 +39,13 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
         {
             throw new Exception(exception.Message);
         }        
-        
-    }    
+    }
+
+    public async Task<UnidadeDto> CreateUnidade(UnidadeDto unidadeDto)
+    {
+        var unidade = _mapper.Map<Unidade>(unidadeDto);
+        await Add(unidade);
+        return  _mapper.Map<UnidadeDto>(unidade);;        
+    }
     
 }

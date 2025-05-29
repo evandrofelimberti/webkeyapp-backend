@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ using WebAppKey.Mutations;
 using WebAppKey.Profiles;
 using WebAppKey.Queries;
 using WebAppKey.Types;
+using WebAppKey.Validators;
+using WebAppKey.Validators.Intefaces;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
@@ -30,17 +33,18 @@ AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddScoped<DataContext, DataContext>();
-builder.Services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-builder.Services.AddTransient<IUnidadeService, UnidadeService>();
-builder.Services.AddTransient<IProdutoService, ProdutoService>();
-builder.Services.AddTransient<ITipoProdutoService, TipoProdutoService>();
-builder.Services.AddTransient<ITipoMovimentoService, TipoMovimentoService>();
-builder.Services.AddTransient<IMovimentoService, MovimentoService>();
-builder.Services.AddTransient<IMovimentoItemService, MovimentoItemService>();
-builder.Services.AddTransient<ILavouraService, LavouraService>();
-builder.Services.AddTransient<ISafraService, SafraService>();
-builder.Services.AddTransient<IUsuarioService, UsuarioService>();
-
+builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddScoped<IUnidadeService, UnidadeService>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<ITipoProdutoService, TipoProdutoService>();
+builder.Services.AddScoped<ITipoMovimentoService, TipoMovimentoService>();
+builder.Services.AddScoped<IMovimentoService, MovimentoService>();
+builder.Services.AddScoped<IMovimentoItemService, MovimentoItemService>();
+builder.Services.AddScoped<ILavouraService, LavouraService>();
+builder.Services.AddScoped<ISafraService, SafraService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IUnidadeValidator, UnidadeValidator>();
+builder.Services.AddScoped<IValidator<CreateUnidadeInput>, UnidadeFluentValidator>();
 
 /*var options = new JsonSerializerOptions
 {

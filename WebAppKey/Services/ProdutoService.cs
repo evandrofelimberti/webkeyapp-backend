@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using WebAppKey.DTO;
 using WebAppKey.Models;
 using WebAppKey.Services.Interfaces;
+using WebAppKey.Validators;
 
 namespace WebAppKey.Services;
 using Data;
