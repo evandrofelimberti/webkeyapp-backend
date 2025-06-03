@@ -43,6 +43,7 @@ builder.Services.AddScoped<IMovimentoItemService, MovimentoItemService>();
 builder.Services.AddScoped<ILavouraService, LavouraService>();
 builder.Services.AddScoped<ISafraService, SafraService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<UnidadeMutation>();
 builder.Services.AddScoped<IUnidadeValidator, UnidadeValidator>();
 builder.Services.AddScoped<IValidator<CreateUnidadeInput>, UnidadeFluentValidator>();
 

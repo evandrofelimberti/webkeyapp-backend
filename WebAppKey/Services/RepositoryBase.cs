@@ -8,7 +8,7 @@ namespace WebAppKey.Services;
 
 public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
-    protected DataContext _context;
+    protected readonly DataContext _context;
     protected readonly IMapper _mapper;
 
     public RepositoryBase(DataContext context, IMapper mapper)

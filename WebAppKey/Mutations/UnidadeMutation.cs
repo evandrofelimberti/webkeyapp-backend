@@ -43,5 +43,18 @@ namespace WebAppKey.Mutations
            await _unidadeService.CreateUnidade(createDto);
            return _mapper.Map<UnidadeType>(createDto);
         }
+
+        public async Task<UnidadeType> UpdateUnidade(int id, CreateUnidadeInput input)
+        {
+            var validationResult = await _validator.ValidateAsync(input);
+            if (!validationResult.IsValid)
+            {
+                throw new GraphQLException(string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
+            }              
+
+            var createDto = _mapper.Map<UnidadeDto>(input);
+            await _unidadeService.UpdateUnidade(id, createDto);
+            return _mapper.Map<UnidadeType>(createDto);            
+        }
     }
 }
