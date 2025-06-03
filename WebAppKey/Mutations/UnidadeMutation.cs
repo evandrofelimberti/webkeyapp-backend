@@ -14,23 +14,17 @@ namespace WebAppKey.Mutations
         private readonly IUnidadeService _unidadeService;
         private readonly IMapper _mapper;
         private readonly IUnidadeValidator _unidadeValidator;
-        private IValidator<CreateUnidadeInput> _validator;
 
-        public UnidadeMutation(IUnidadeService unidadeService, IMapper mapper, IUnidadeValidator unidadeValidator, IValidator<CreateUnidadeInput> validator)
+        public UnidadeMutation(IUnidadeService unidadeService, IMapper mapper, IUnidadeValidator unidadeValidator)
         {
             _unidadeService = unidadeService;
             _mapper = mapper;
             _unidadeValidator = unidadeValidator;
-            _validator = validator;
         }
 
         public async Task<UnidadeType> CreateUnidade(CreateUnidadeInput input)
         {
-            var validationResult = await _validator.ValidateAsync(input);
-            if (!validationResult.IsValid)
-            {
-                throw new GraphQLException(string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
-            }            
+            await _unidadeValidator.ValidateCreateAsync(input);
             
             // var possuiSiglaCadastrada = await _unidadeValidator.PossuiSiglaCadastrada(input.Sigla);
             // if (possuiSiglaCadastrada)
@@ -44,13 +38,9 @@ namespace WebAppKey.Mutations
            return _mapper.Map<UnidadeType>(createDto);
         }
 
-        public async Task<UnidadeType> UpdateUnidade(int id, CreateUnidadeInput input)
+        public async Task<UnidadeType> UpdateUnidade(int id, UpdateUnidadeInput input)
         {
-            var validationResult = await _validator.ValidateAsync(input);
-            if (!validationResult.IsValid)
-            {
-                throw new GraphQLException(string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage)));
-            }              
+            await _unidadeValidator.ValidateUpdateAsync(input);
 
             var createDto = _mapper.Map<UnidadeDto>(input);
             await _unidadeService.UpdateUnidade(id, createDto);

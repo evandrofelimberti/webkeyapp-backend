@@ -44,8 +44,9 @@ builder.Services.AddScoped<ILavouraService, LavouraService>();
 builder.Services.AddScoped<ISafraService, SafraService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<UnidadeMutation>();
-builder.Services.AddScoped<IUnidadeValidator, UnidadeValidator>();
 builder.Services.AddScoped<IValidator<CreateUnidadeInput>, UnidadeFluentValidator>();
+builder.Services.AddScoped<IValidator<UpdateUnidadeInput>, UpdateUnidadeFluentValidator>();
+builder.Services.AddScoped<IUnidadeValidator, UnidadeValidator>();
 
 /*var options = new JsonSerializerOptions
 {

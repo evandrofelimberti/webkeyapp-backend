@@ -5,7 +5,7 @@ namespace WebAppKey.Services.Interfaces;
 
 public interface IUnidadeService: IRepositoryBase<Unidade>
 {
-    Task<Unidade> GetByFirstSigla(string sigla);
+    Task<bool> GetByFirstSiglaAsync(string sigla, int? ignoreId = null);
 
     Task<UnidadeDto>  UpdateUnidade(int id, UnidadeDto unidadeDto);
     

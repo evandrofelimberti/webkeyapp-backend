@@ -14,9 +14,13 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
     {
     }
 
-    public Task<Unidade> GetByFirstSigla(string sigla)
+    public async Task<bool> GetByFirstSiglaAsync(string sigla, int? ignoreId = null)
     {
-        return FirstOrDefault(u => u.Sigla == sigla);
+        return await _context.Unidade.AnyAsync(u => u.Sigla == sigla && (!ignoreId.HasValue || u.Id != ignoreId.Value));
+        //return FirstOrDefault(u => u.Sigla == sigla);
+        //return await _context.Unidades
+        //    .AnyAsync(u => u.Sigla == sigla && (!ignoreId.HasValue || u.Id != ignoreId.Value), ct);
+
     }
    
     public async Task<UnidadeDto> UpdateUnidade(int id, UnidadeDto unidadeDto)
