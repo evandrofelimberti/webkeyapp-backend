@@ -40,6 +40,7 @@ namespace WebAppKey.Mutations
 
         public async Task<UnidadeType> UpdateUnidade(int id, UpdateUnidadeInput input)
         {
+            input.Id = id;
             await _unidadeValidator.ValidateUpdateAsync(input);
 
             var createDto = _mapper.Map<UnidadeDto>(input);

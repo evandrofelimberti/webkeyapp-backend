@@ -17,10 +17,6 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
     public async Task<bool> GetByFirstSiglaAsync(string sigla, int? ignoreId = null)
     {
         return await _context.Unidade.AnyAsync(u => u.Sigla == sigla && (!ignoreId.HasValue || u.Id != ignoreId.Value));
-        //return FirstOrDefault(u => u.Sigla == sigla);
-        //return await _context.Unidades
-        //    .AnyAsync(u => u.Sigla == sigla && (!ignoreId.HasValue || u.Id != ignoreId.Value), ct);
-
     }
    
     public async Task<UnidadeDto> UpdateUnidade(int id, UnidadeDto unidadeDto)
@@ -31,11 +27,9 @@ public class UnidadeService : RepositoryBase<Unidade>, IUnidadeService
             
             unidade.Descricao = unidadeDto.Descricao;
             unidade.Sigla = unidadeDto.Sigla;
-            // copia os valores de unidadeDto para unidade 
             _mapper.Map(unidadeDto, unidade);
 
             await base.Update(unidade);            
-            // cria uma nova instancia 
             return _mapper.Map<UnidadeDto>(unidade);
 
         }

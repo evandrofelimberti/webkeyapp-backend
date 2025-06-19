@@ -18,7 +18,7 @@ namespace WebAppKey.Validators
                 .WithMessage("Sigla obrigatória")
                 .Length(2,3)
                 .WithMessage("Deve conter entre dois a tres caracteres")
-                .MustAsync(async (sigla, ct) => !await SiglaValidaAsync(sigla, null, ct))                
+                .MustAsync(async (sigla, ct) => await PodeInserirSiglaAsync(sigla, null, ct))                
                 .WithMessage("Já existe uma unidade com essa sigla");
             
             RuleFor(x => x.Descricao)
@@ -28,10 +28,10 @@ namespace WebAppKey.Validators
                 .WithMessage("Descrição deve ter no máximo 300 caracteres");            
         }
 
-        private async Task<bool> SiglaValidaAsync(string sigla, int? ignoreId = null, CancellationToken cancellationToken = default)
+        private async Task<bool> PodeInserirSiglaAsync(string sigla, int? ignoreId = null, CancellationToken cancellationToken = default)
         {
-            return !await _unidadeService.GetByFirstSiglaAsync(sigla, ignoreId);
-            
+            var podeInserirSigla = !await _unidadeService.GetByFirstSiglaAsync(sigla, ignoreId);
+            return podeInserirSigla;
         }
     }
     
@@ -49,7 +49,7 @@ namespace WebAppKey.Validators
                 .WithMessage("Deve conter entre dois a tres caracteres")
                 .When(x => x.Sigla != null) // só valida se estiver sendo alterada
                 .MustAsync(async (input, sigla, ct) =>
-                    !await SiglaValida(sigla!, input.Id, ct))                
+                    await PodeAtualizaSiglaAsync(sigla!, input.Id, ct))                
                 .WithMessage("Já existe uma unidade com essa sigla");
             
             RuleFor(x => x.Descricao)
@@ -59,10 +59,11 @@ namespace WebAppKey.Validators
                 .WithMessage("Descrição deve ter no máximo 300 caracteres");            
         }
 
-        private async Task<bool> SiglaValida(string sigla, int? ignoreId = null, CancellationToken cancellationToken = default)
+        private async Task<bool> PodeAtualizaSiglaAsync(string sigla, int? ignoreId = null, CancellationToken cancellationToken = default)
         {
-            return !await _unidadeService.GetByFirstSiglaAsync(sigla, ignoreId);
-            
+            var podeAtualizaSigla = !await _unidadeService.GetByFirstSiglaAsync(sigla, ignoreId);
+            return podeAtualizaSigla;
+
         }
     }    
 }

@@ -19,7 +19,8 @@ namespace WebAppKey.Profiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore());            
             CreateMap<UnidadeDto, UnidadeType>().ReverseMap();
             CreateMap<Unidade, UnidadeType>().ReverseMap();
-            CreateMap<UpdateUnidadeInput, UnidadeDto>();            
+            CreateMap<UpdateUnidadeInput, UnidadeDto>().ReverseMap();
+            CreateMap<CreateUnidadeInput, UnidadeDto>().ReverseMap();
             
         }
     }
